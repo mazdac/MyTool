@@ -1,0 +1,119 @@
+apply plugin: 'com.android.application'
+android {
+
+    dataBinding {
+        enabled = true
+    }
+    signingConfigs {
+        normal {
+            keyAlias 'health'
+            keyPassword 'hea.123'
+            storeFile file('D:/key/hzt_key.jks')
+            storePassword 'hzt.123'
+        }
+    }
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.waterfairy.tool"
+        minSdkVersion 18
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            resValue("string", "app_name", "工具箱")
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.normal
+            debuggable true
+        }
+        bTest {
+            minifyEnabled false
+            resValue("string", "app_name", "工具箱(测试)")
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true
+            signingConfig signingConfigs.normal
+            debuggable true
+        }
+        debug {
+            minifyEnabled false
+            resValue("string", "app_name", "工具箱(调试)")
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.normal
+
+        }
+    }
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(output.outputFile.parent,
+                    output.outputFile.name.replace("app-release.apk", "com.waterfairy.tool-" + defaultConfig.versionName + ".apk")
+            )
+        }
+    }
+    productFlavors {
+        prelease {
+            applicationId 'com.waterfairy.tool'
+            signingConfig signingConfigs.normal
+        }
+        pdebug {
+            applicationId 'com.waterfairy.tool.debug'
+            signingConfig signingConfigs.normal
+        }
+        ptest {
+            applicationId 'com.waterfairy.tool.test'
+            signingConfig signingConfigs.normal
+        }
+    }
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(output.outputFile.parent,
+                    output.outputFile.name.replace("app-prelease-release.apk", "com.waterfairy.tool-" + defaultConfig.versionName + ".apk")
+
+            )
+            output.outputFile = new File(output.outputFile.parent,
+                    output.outputFile.name.replace("app-ptest-bTest.apk", "com.waterfairy.tool.test-" + defaultConfig.versionName + ".apk")
+
+            )
+            output.outputFile = new File(output.outputFile.parent,
+                    output.outputFile.name.replace("app-pdebug-debug.apk", "com.waterfairy.tool.debug-" + defaultConfig.versionName + ".apk")
+
+            )
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.2.0'
+    testCompile 'junit:junit:4.12'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile files('lib/zixing-core-3.2.0.jar')
+    compile files('lib/sun.misc.BASE64Decoder.jar')
+    compile 'com.mobsandgeeks:android-saripaar:2.0.3'
+    compile 'com.android.support:multidex:1.0.1'
+    // 升级SDK
+    //video
+    compile 'tv.danmaku.ijk.media:ijkplayer-java:0.7.7.1'
+    compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.7.7.1'
+    compile 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.7.7.1'
+    //rxjava
+    compile 'io.reactivex:rxjava:1.0.14'
+    compile 'io.reactivex:rxandroid:1.0.1'
+    //retrofit(基于okhttp)
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    //rxjava 与 retrofit 结合
+    compile 'io.reactivex:rxjava:x.y.z'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+    compile 'com.github.chrisbanes:PhotoView:1.3.0'
+    compile files('libs/sun.misc.BASE64Decoder.jar')
+    compile files('libs/zixing-core-3.2.0.jar')
+}
