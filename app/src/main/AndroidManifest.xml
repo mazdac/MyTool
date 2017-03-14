@@ -92,9 +92,8 @@
         <activity android:name=".music.MusicActivity" />
         <activity android:name=".xml.XMLActivity" />
         <activity android:name=".regular.RegularActivity" />
-        <activity
-            android:name="com.tencent.bugly.beta.ui.BetaActivity"
-            android:theme="@android:style/Theme.Translucent" />
+        <!--<activity-->
+            <!--android:theme="@android:style/Theme.Translucent" />-->
         <activity android:name=".databinding.DataBindingActivity" />
         <activity android:name=".video.bilibili.VideoActivity" />
 
@@ -111,10 +110,12 @@
             android:theme="@style/DialogTheme" />
         <activity android:name=".image.ImageActivity" />
         <activity
-            android:name=".image.GaoSiActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:name=".image.GaoSiActivity" />
         <activity android:name=".image.ColorViewActivity" />
-        <activity android:name=".image.RoundViewActivity"></activity>
+        <activity android:name=".image.RoundViewActivity" />
+        <activity android:name=".rxjava.img.activity.RXJavaViewImageActivity" />
+        <activity android:name=".wifisocket.WifiMangerActivity" />
+        <activity android:name=".wifisocket.SearchWifiDeviceActivity"></activity>
     </application>
 
 </manifest>

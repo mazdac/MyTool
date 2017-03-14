@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -100,7 +99,7 @@ public class GaoSiActivity extends AppCompatActivity implements SeekBar.OnSeekBa
                 content = "自处理1" + selfRadius + "--";
                 break;
             case 2:
-                blurBitmap = ImageUtils.convertToBlur(matrix);
+                blurBitmap = ImageUtils.selfBlur2(matrix);
                 content = "自处理2" + selfRadius + "--";
                 break;
         }

@@ -55,7 +55,6 @@ public class BTManager {
     private ServerConnectThread serverConnectThread;
     private OnConnectListener serverConnectListener;
 
-
     //蓝牙客户端
     private BluetoothSocket userConnectSocket;
     private OnConnectListener userConnectListener;

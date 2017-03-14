@@ -21,6 +21,7 @@ import com.waterfairy.tool.rxjava.RXJavaActivity;
 import com.waterfairy.tool.update.UpdateActivity;
 import com.waterfairy.tool.utils.PermissionUtils;
 import com.waterfairy.tool.video.bilibili.VideoActivity;
+import com.waterfairy.tool.wifisocket.WifiMangerActivity;
 import com.waterfairy.tool.xml.XMLActivity;
 
 import java.util.concurrent.LinkedBlockingQueue;
@@ -113,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.dialog:
                 startActivity(new Intent(this, DialogActivity.class));
+                break;   case R.id.wifi:
+                startActivity(new Intent(this, WifiMangerActivity.class));
                 break;
         }
     }

@@ -169,6 +169,13 @@
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
                 android:text="dialog" />
+
+            <Button
+                android:id="@+id/wifi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:text="wifi" />
         </LinearLayout>
     </ScrollView>
 

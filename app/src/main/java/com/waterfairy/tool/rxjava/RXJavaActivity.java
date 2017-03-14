@@ -1,5 +1,6 @@
 package com.waterfairy.tool.rxjava;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.waterfairy.tool.R;
+import com.waterfairy.tool.rxjava.img.activity.RXJavaViewImageActivity;
 import com.waterfairy.tool.rxjava.rxjava_retrofit.RXHttpManger;
 
 import java.util.ArrayList;
@@ -89,6 +91,9 @@ public class RXJavaActivity extends AppCompatActivity {
                 break;
             case R.id.net_post:
                 break;
+            case R.id.img_blur:
+                startActivity(new Intent(this, RXJavaViewImageActivity.class));
+                break;
 
         }
     }
@@ -98,8 +103,8 @@ public class RXJavaActivity extends AppCompatActivity {
 //        Http.getInstance().postMultipart();
         RXHttpManger instance = RXHttpManger.getInstance();
         long id = 111;
-        String name="小樱";
-        instance.getUserDataFromId(id,name);
+        String name = "小樱";
+        instance.getUserDataFromId(id, name);
 
     }
 
