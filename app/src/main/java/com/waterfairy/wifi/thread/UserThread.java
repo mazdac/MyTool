@@ -1,6 +1,6 @@
-package com.waterfairy.tool.wifisocket.wifi.thread;
+package com.waterfairy.wifi.thread;
 
-import com.waterfairy.tool.wifisocket.wifi.listener.WifiUserListener;
+import com.waterfairy.wifi.listener.WifiUserListener;
 
 import java.io.IOException;
 import java.io.InputStream;

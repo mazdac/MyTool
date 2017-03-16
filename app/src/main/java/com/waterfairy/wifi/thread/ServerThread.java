@@ -1,9 +1,9 @@
-package com.waterfairy.tool.wifisocket.wifi.thread;
+package com.waterfairy.wifi.thread;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.waterfairy.tool.wifisocket.wifi.listener.WifiServerListener;
+import com.waterfairy.wifi.listener.WifiServerListener;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -197,14 +197,14 @@ public class ServerThread extends Thread {
     public void closeServer() {
         if (serverSocket != null) {
             try {
+                disconnectAllSocket();
                 serverSocket.close();
                 isServerOpen = false;
-                disconnectAllSocket();
-                listener.onServerClose();
             } catch (IOException e) {
                 e.printStackTrace();
                 isServerOpen = false;
             }
+            listener.onServerClose();
         }
     }
 

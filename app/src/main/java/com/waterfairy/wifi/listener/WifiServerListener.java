@@ -1,4 +1,4 @@
-package com.waterfairy.tool.wifisocket.wifi.listener;
+package com.waterfairy.wifi.listener;
 
 /**
  * Created by water_fairy on 2017/3/13.

@@ -1,16 +1,16 @@
-package com.waterfairy.tool.wifisocket.wifi.manger;
+package com.waterfairy.wifi.manger;
 
 import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.WifiInfo;
 import android.util.Log;
 
-import com.waterfairy.tool.wifisocket.wifi.thread.SearchWifiThread;
-import com.waterfairy.tool.wifisocket.wifi.thread.ServerThread;
-import com.waterfairy.tool.wifisocket.wifi.thread.UserThread;
-import com.waterfairy.tool.wifisocket.wifi.listener.OnWifiDeviceSearchListener;
-import com.waterfairy.tool.wifisocket.wifi.listener.WifiServerListener;
-import com.waterfairy.tool.wifisocket.wifi.listener.WifiUserListener;
+import com.waterfairy.wifi.thread.SearchWifiThread;
+import com.waterfairy.wifi.thread.ServerThread;
+import com.waterfairy.wifi.thread.UserThread;
+import com.waterfairy.wifi.listener.OnWifiDeviceSearchListener;
+import com.waterfairy.wifi.listener.WifiServerListener;
+import com.waterfairy.wifi.listener.WifiUserListener;
 
 import java.util.HashMap;
 
@@ -102,11 +102,18 @@ public class WifiManager {
      * @param ip
      * @param bytes
      */
-    public void writeMsgFromUser(String ip, byte[] bytes) {
-        UserThread userThread = mDeviceHashMap.get(ip);
-        if (userThread != null) {
-            userThread.write(bytes);
-        }
+    public void writeMsgFromUser(String ip, final byte[] bytes) {
+        final UserThread userThread = mDeviceHashMap.get(ip);
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                if (userThread != null) {
+                    userThread.write(bytes);
+                }
+            }
+        }.start();
+
     }
 
     /**
@@ -126,7 +133,7 @@ public class WifiManager {
      */
     public void writeMsgFromServer(byte[] bytes) {
         if (serverThread != null) {
-            serverThread.write(bytes);
+            writeMsgFromServer(serverThread.getLastUser(), bytes);
         }
     }
 
@@ -136,9 +143,15 @@ public class WifiManager {
      * @param ipAddress
      * @param bytes
      */
-    public void writeMsgFromServer(String ipAddress, byte[] bytes) {
+    public void writeMsgFromServer(final String ipAddress, final byte[] bytes) {
         if (serverThread != null) {
-            serverThread.write(ipAddress, bytes);
+            new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    serverThread.write(ipAddress, bytes);
+                }
+            }.start();
         }
     }
 
@@ -245,7 +258,9 @@ public class WifiManager {
      * 关闭服务器,断开所有用户的连接
      */
     public void closeServer() {
-        serverThread.closeServer();
+        if (serverThread != null) {
+            serverThread.closeServer();
+        }
         serverThread = null;
     }
 

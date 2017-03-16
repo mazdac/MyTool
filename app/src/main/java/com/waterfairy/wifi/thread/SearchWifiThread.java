@@ -1,9 +1,9 @@
-package com.waterfairy.tool.wifisocket.wifi.thread;
+package com.waterfairy.wifi.thread;
 
 import android.app.Activity;
 
-import com.waterfairy.tool.wifisocket.wifi.listener.OnSendCallback;
-import com.waterfairy.tool.wifisocket.wifi.listener.OnWifiDeviceSearchListener;
+import com.waterfairy.wifi.listener.OnSendCallback;
+import com.waterfairy.wifi.listener.OnWifiDeviceSearchListener;
 
 import java.io.IOException;
 import java.io.InputStream;
