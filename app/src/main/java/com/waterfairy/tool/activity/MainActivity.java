@@ -14,12 +14,10 @@ import com.waterfairy.tool.date.DateActivity;
 import com.waterfairy.tool.dialog.DialogActivity;
 import com.waterfairy.tool.exception.ExceptionTestActivity;
 import com.waterfairy.tool.image.ImageActivity;
-import com.waterfairy.tool.image.photoView.PhotoViewActivity;
 import com.waterfairy.tool.qr.QRListActivity;
 import com.waterfairy.tool.regular.RegularActivity;
 import com.waterfairy.tool.rxjava.RXJavaActivity;
-import com.waterfairy.tool.update.UpdateActivity;
-import com.waterfairy.tool.utils.PermissionUtils;
+import com.waterfairy.utils.PermissionUtils;
 import com.waterfairy.tool.video.bilibili.VideoActivity;
 import com.waterfairy.tool.wifisocket.WifiMangerActivity;
 import com.waterfairy.tool.xml.XMLActivity;
@@ -42,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
         int a = -163;
         byte b = (byte) a;
 
-        Log.i(TAG, "test: "+a);
-        Log.i(TAG, "test: "+b);
+        Log.i(TAG, "test: " + a);
+        Log.i(TAG, "test: " + b);
 
         Log.i(TAG, "test: " + (((byte) -63)));              //1111 1111 1111 1111  1111 1111 1100 0001
         Log.i(TAG, "test: " + (((byte) -63) & 0x00FF));     //0000 0000 0000 0000  0000 0000 1111 1111
@@ -114,8 +112,11 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.dialog:
                 startActivity(new Intent(this, DialogActivity.class));
-                break;   case R.id.wifi:
+                break;
+            case R.id.wifi:
                 startActivity(new Intent(this, WifiMangerActivity.class));
+                break;  case R.id.key:
+                startActivity(new Intent(this, KeyCodeActivity.class));
                 break;
         }
     }

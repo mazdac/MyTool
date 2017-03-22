@@ -7,7 +7,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.waterfairy.tool.R;
-import com.waterfairy.tool.utils.DateUtils;
+import com.waterfairy.utils.DateUtils;
 
 public class Str2Activity extends AppCompatActivity {
 

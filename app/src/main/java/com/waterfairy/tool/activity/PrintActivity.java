@@ -10,10 +10,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.waterfairy.tool.R;
-import com.waterfairy.tool.utils.FileUtils;
-
-import java.io.File;
-import java.net.URL;
 
 public class PrintActivity extends AppCompatActivity {
 

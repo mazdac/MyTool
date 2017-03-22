@@ -8,8 +8,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.waterfairy.tool.R;
-import com.waterfairy.tool.utils.FileUtils;
-import com.waterfairy.tool.utils.ToastUtils;
+import com.waterfairy.utils.FileUtils;
+import com.waterfairy.utils.ToastUtils;
 
 import java.io.File;
 import java.util.ArrayList;

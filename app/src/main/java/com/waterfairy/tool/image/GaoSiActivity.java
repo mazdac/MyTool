@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 import com.waterfairy.tool.R;
 import com.waterfairy.tool.image.gaosi.FastBlur;
-import com.waterfairy.tool.utils.ImageUtils;
-import com.waterfairy.tool.utils.ToastUtils;
+import com.waterfairy.utils.ImageUtils;
+import com.waterfairy.utils.ToastUtils;
 
 import java.util.Date;
 

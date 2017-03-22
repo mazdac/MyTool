@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.animation.Animation;
 
 import com.waterfairy.tool.R;
-import com.waterfairy.tool.popup.basepopup.BasePopupWindow;
+import com.waterfairy.basepopup.BasePopupWindow;
 
 /**
  * Created by water_fairy on 2016/12/20.

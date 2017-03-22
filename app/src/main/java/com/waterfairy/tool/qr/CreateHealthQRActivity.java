@@ -13,9 +13,9 @@ import android.widget.EditText;
 
 import com.waterfairy.tool.R;
 import com.waterfairy.tool.dialog.ImgDialog;
-import com.waterfairy.tool.utils.FileUtils;
-import com.waterfairy.tool.utils.QRCodeUtil;
-import com.waterfairy.tool.utils.ToastUtils;
+import com.waterfairy.utils.FileUtils;
+import com.waterfairy.utils.QRCodeUtil;
+import com.waterfairy.utils.ToastUtils;
 
 import java.io.File;
 

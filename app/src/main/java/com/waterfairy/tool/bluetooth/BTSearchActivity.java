@@ -15,11 +15,9 @@ import android.widget.RadioGroup;
 
 import com.waterfairy.tool.qr.CreateHealthQRActivity;
 import com.waterfairy.tool.R;
-import com.waterfairy.tool.bluetooth.ble.BLEConnectActivity;
-import com.waterfairy.tool.bluetooth.ble.BLEManager;
-import com.waterfairy.tool.bluetooth.btnormal.BTConnectActivity;
-import com.waterfairy.tool.bluetooth.btnormal.BTManager;
-import com.waterfairy.tool.utils.ToastUtils;
+import com.waterfairy.bluetooth.ble.BLEManager;
+import com.waterfairy.bluetooth.btnormal.BTManager;
+import com.waterfairy.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

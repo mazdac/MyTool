@@ -2,7 +2,6 @@ package com.waterfairy.tool.video.bilibili;
 
 import android.graphics.Bitmap;
 import android.media.MediaMetadataRetriever;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,9 +10,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.waterfairy.tool.R;
-import com.waterfairy.tool.utils.FileUtils;
-import com.waterfairy.tool.utils.ImageUtils;
-import com.waterfairy.tool.utils.ToastUtils;
+import com.waterfairy.utils.FileUtils;
+import com.waterfairy.utils.ImageUtils;
+import com.waterfairy.utils.ToastUtils;
 
 import java.io.File;
 

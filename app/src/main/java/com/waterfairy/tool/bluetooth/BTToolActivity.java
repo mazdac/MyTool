@@ -8,10 +8,9 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.waterfairy.tool.R;
-import com.waterfairy.tool.bluetooth.ble.BLEManager;
-import com.waterfairy.tool.bluetooth.btnormal.BTManager;
-import com.waterfairy.tool.bluetooth.btnormal.BTServerActivity;
-import com.waterfairy.tool.utils.PermissionUtils;
+import com.waterfairy.bluetooth.ble.BLEManager;
+import com.waterfairy.bluetooth.btnormal.BTManager;
+import com.waterfairy.utils.PermissionUtils;
 
 public class BTToolActivity extends AppCompatActivity  {
     BLEManager bleManager;

@@ -8,7 +8,7 @@ package jp.co.omron.healthcare.oc.device;
 import android.util.Log;
 
 import com.waterfairy.tool.OutUtils;
-import com.waterfairy.tool.utils.DateUtils;
+import com.waterfairy.utils.DateUtils;
 
 import java.util.Calendar;
 

@@ -7,9 +7,9 @@ import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.util.Log;
 
-import com.waterfairy.tool.bluetooth.ble.BLEManager;
-import com.waterfairy.tool.bluetooth.ble.BLEService;
-import com.waterfairy.tool.utils.NumberChange;
+import com.waterfairy.bluetooth.ble.BLEManager;
+import com.waterfairy.bluetooth.ble.BLEService;
+import com.waterfairy.utils.NumberChange;
 
 import java.util.List;
 import java.util.UUID;

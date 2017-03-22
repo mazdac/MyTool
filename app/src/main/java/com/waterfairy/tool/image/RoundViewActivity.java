@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.waterfairy.tool.R;
-import com.waterfairy.tool.utils.ImageUtils;
+import com.waterfairy.utils.ImageUtils;
 
 public class RoundViewActivity extends AppCompatActivity {
     private ImageView imageView;

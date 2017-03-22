@@ -41,13 +41,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".bluetooth.ble.BLEConnectActivity"
+            android:name=".bluetooth.BLEConnectActivity"
             android:label="@string/ble_connect" />
 
-        <service android:name=".bluetooth.ble.BLEService" />
+        <service android:name="com.waterfairy.bluetooth.ble.BLEService" />
 
         <activity
-            android:name=".bluetooth.btnormal.BTConnectActivity"
+            android:name=".bluetooth.BTConnectActivity"
             android:label="@string/bt_normal_connect" />
         <activity
             android:name=".bluetooth.BTSearchActivity"
@@ -59,7 +59,7 @@
             android:name=".activity.CalcActivity"
             android:label="@string/calc" />
         <activity
-            android:name=".bluetooth.btnormal.BTServerActivity"
+            android:name=".bluetooth.BTServerActivity"
             android:label="@string/bt_server" />
         <activity
             android:name=".bluetooth.BTToolActivity"
@@ -81,7 +81,7 @@
         <!-- <action android:name="android.intent.action.BOOT_COMPLETED" /> -->
         <!-- </intent-filter> -->
         <!-- </receiver> -->
-        <activity android:name=".update.UpdateActivity" />
+        <activity android:name=".activity.UpdateActivity" />
         <activity android:name=".omron.OmronActivity" />
         <activity android:name=".exception.ExceptionTestActivity" />
         <activity android:name=".net.NetActivity" />
@@ -92,8 +92,8 @@
         <activity android:name=".music.MusicActivity" />
         <activity android:name=".xml.XMLActivity" />
         <activity android:name=".regular.RegularActivity" />
-        <!--<activity-->
-            <!--android:theme="@android:style/Theme.Translucent" />-->
+        <!-- <activity -->
+        <!-- android:theme="@android:style/Theme.Translucent" /> -->
         <activity android:name=".databinding.DataBindingActivity" />
         <activity android:name=".video.bilibili.VideoActivity" />
 
@@ -109,13 +109,13 @@
             android:launchMode="singleInstance"
             android:theme="@style/DialogTheme" />
         <activity android:name=".image.ImageActivity" />
-        <activity
-            android:name=".image.GaoSiActivity" />
+        <activity android:name=".image.GaoSiActivity" />
         <activity android:name=".image.ColorViewActivity" />
         <activity android:name=".image.RoundViewActivity" />
         <activity android:name=".rxjava.img.activity.RXJavaViewImageActivity" />
         <activity android:name=".wifisocket.WifiMangerActivity" />
-        <activity android:name=".wifisocket.SearchWifiDeviceActivity"></activity>
+        <activity android:name=".wifisocket.SearchWifiDeviceActivity" />
+        <activity android:name=".activity.KeyCodeActivity"></activity>
     </application>
 
 </manifest>
