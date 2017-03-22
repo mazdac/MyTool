@@ -33,7 +33,33 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
         PermissionUtils.requestPermission(this, PermissionUtils.REQUEST_STORAGE);
-        test();
+//        test();
+
+        calc(56);
+        calc(47);
+        calc(61);
+        calc(79);
+
+        calc(96);
+        calc(47);
+        calc(45);
+        calc(122);
+
+        calc(47);
+        calc(74);
+    }
+
+
+    private void calc(int num) {
+        int scrore = 0;
+        if (num < 61) {
+            scrore = (int) ((100 - 81) / (float) (60 - 39) * (60 - num) + 81);
+        } else if (num < 70) {
+            scrore = (int) ((80 - 61) / (float) (69 - 61) * (69 - num) + 61);
+        } else if (num < 334) {
+            scrore = (int) ((60 - 0) / (float) (333 - 70) * (333 - num));
+        }
+        Log.i(TAG, "calc: " + num + "---" + scrore);
     }
 
     private void test() {
@@ -115,7 +141,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.wifi:
                 startActivity(new Intent(this, WifiMangerActivity.class));
-                break;  case R.id.key:
+                break;
+            case R.id.key:
                 startActivity(new Intent(this, KeyCodeActivity.class));
                 break;
         }

@@ -19,6 +19,7 @@ import com.squareup.okhttp.Response;
 import com.waterfairy.okhttp.callback.NormalCallback;
 import com.waterfairy.okhttp.callback.ProgressCallback;
 import com.waterfairy.okhttp.manager.OkHttpManager;
+import com.waterfairy.xmlParser.PullHashMapParser;
 
 import org.xmlpull.v1.XmlPullParserException;
 

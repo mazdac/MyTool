@@ -14,7 +14,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.waterfairy.tool.R;
-import com.waterfairy.tool.image.gaosi.FastBlur;
+import com.waterfairy.tool.image.gaosi.FastBlurUtils;
 import com.waterfairy.utils.ImageUtils;
 import com.waterfairy.utils.ToastUtils;
 
@@ -95,7 +95,7 @@ public class GaoSiActivity extends AppCompatActivity implements SeekBar.OnSeekBa
                 }
                 break;
             case 1:
-                blurBitmap = FastBlur.doBlur(matrix, selfRadius, false);//120ms
+                blurBitmap = FastBlurUtils.doBlur(matrix, selfRadius, false);//120ms
                 content = "自处理1" + selfRadius + "--";
                 break;
             case 2:
