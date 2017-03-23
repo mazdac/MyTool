@@ -2,4 +2,10 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="width_slide_menu">265dp</dimen>
+    <dimen name="album_width">345dp</dimen>
+    <dimen name="album_top">35dp</dimen>
+    <dimen name="width_play_button">80dp</dimen>
+    <dimen name="width_next_button">60dp</dimen>
+    <dimen name="height_play_lin">100dp</dimen>
 </resources>
