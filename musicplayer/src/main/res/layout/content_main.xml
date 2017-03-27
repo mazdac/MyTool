@@ -36,7 +36,7 @@
                 <ImageView
                     android:id="@+id/iv_album"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/album_width"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:background="@color/transparent"
                     android:scaleType="fitXY"
@@ -51,10 +51,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/album_top"
-            android:background="@drawable/bg_play_style"
+            android:background="@drawable/bg_play_lin_style"
             android:orientation="vertical">
 
-            <include layout="@layout/content_play_main" />
+            <include layout="@layout/content_play_control_main" />
+
+            <include layout="@layout/content_play_info" />
+
+            <include layout="@layout/content_play_progress" />
 
         </LinearLayout>
 

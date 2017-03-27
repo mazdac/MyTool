@@ -6,4 +6,8 @@
     <color name="white">#FFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="black">#000000</color>
+    <color name="main_color">#BFE2FF</color>
+    <color name="main_color_a_66">#66BFE2FF</color>
+    <color name="singer">#C4DEF5</color>
+    <color name="bg_bg_progress">#7B7E85</color>
 </resources>

@@ -22,4 +22,8 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
+    <style name="PlayCheckbox" parent="android:Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/play_style</item>
+    </style>
+
 </resources>

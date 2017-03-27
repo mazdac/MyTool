@@ -7,5 +7,11 @@
     <dimen name="album_top">35dp</dimen>
     <dimen name="width_play_button">80dp</dimen>
     <dimen name="width_next_button">60dp</dimen>
-    <dimen name="height_play_lin">100dp</dimen>
+    <dimen name="height_play_lin">95dp</dimen>
+    <dimen name="height_music_play_info">50dp</dimen>
+    <dimen name="width_music_icon">32dp</dimen>
+    <dimen name="height_play_num">18dp</dimen>
+    <dimen name="width_min_play_num">30dp</dimen>
+    <dimen name="dp1">1dp</dimen>
+    <dimen name="dp2">2dp</dimen>
 </resources>

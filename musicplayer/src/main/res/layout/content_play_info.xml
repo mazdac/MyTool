@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rel_play_info"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/music_info_style"
+    android:paddingBottom="3dp"
+    android:clickable="true"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingTop="3dp">
+
+    <ImageView
+        android:id="@+id/iv_music"
+        android:layout_width="@dimen/width_music_icon"
+        android:layout_height="@dimen/width_music_icon"
+        android:layout_alignBottom="@+id/music_info_lin"
+        android:layout_alignTop="@id/music_info_lin"
+        android:src="@mipmap/ic_music" />
+
+    <LinearLayout
+        android:id="@+id/music_info_lin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/iv_music"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:paddingLeft="8dp">
+
+        <TextView
+            android:id="@+id/tv_music_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="你是我心内的一首歌"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_music_singer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="王力宏/selina"
+            android:textColor="@color/singer"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <TextView
+
+        android:id="@+id/tv_play_num"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/height_play_num"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/play_num_tyle"
+        android:gravity="center"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:text="11/12"
+        android:textSize="13sp" />
+
+</RelativeLayout>
