@@ -13,6 +13,7 @@ import com.waterfairy.tool.databinding.DataBindingActivity;
 import com.waterfairy.tool.date.DateActivity;
 import com.waterfairy.tool.dialog.DialogActivity;
 import com.waterfairy.tool.exception.ExceptionTestActivity;
+import com.waterfairy.tool.h5.H5Activity;
 import com.waterfairy.tool.image.ImageActivity;
 import com.waterfairy.tool.qr.QRListActivity;
 import com.waterfairy.tool.regular.RegularActivity;
@@ -144,6 +145,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.key:
                 startActivity(new Intent(this, KeyCodeActivity.class));
+                break;
+            case R.id.h5:
+                startActivity(new Intent(this, H5Activity.class));
                 break;
         }
     }

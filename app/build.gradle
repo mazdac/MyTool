@@ -6,7 +6,8 @@ android {
             reset()
             include 'x86', 'armeabi-v7a'
             universalApk true
-        }}
+        }
+    }
     dataBinding {
         enabled = true
     }
@@ -96,25 +97,25 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    // 升级SDK
+    //video
+    //rxjava
+    //retrofit(基于okhttp)
+    //rxjava 与 retrofit 结合
+    compile project(':waterfairylib')
     compile 'com.android.support:appcompat-v7:25.2.0'
-    testCompile 'junit:junit:4.12'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.mobsandgeeks:android-saripaar:2.0.3'
     compile 'com.android.support:multidex:1.0.1'
-    // 升级SDK
-    //video
     compile 'tv.danmaku.ijk.media:ijkplayer-java:0.7.7.1'
     compile 'tv.danmaku.ijk.media:ijkplayer-exo:0.7.7.1'
     compile 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.7.7.1'
-    //rxjava
     compile 'io.reactivex:rxjava:1.0.14'
     compile 'io.reactivex:rxandroid:1.0.1'
-    //retrofit(基于okhttp)
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
-    //rxjava 与 retrofit 结合
-    compile 'io.reactivex:rxjava:x.y.z'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
     compile 'com.github.chrisbanes:PhotoView:1.3.0'
-    compile project(':waterfairylib')
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
 }

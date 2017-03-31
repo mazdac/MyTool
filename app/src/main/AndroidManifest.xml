@@ -115,7 +115,8 @@
         <activity android:name=".rxjava.img.activity.RXJavaViewImageActivity" />
         <activity android:name=".wifisocket.WifiMangerActivity" />
         <activity android:name=".wifisocket.SearchWifiDeviceActivity" />
-        <activity android:name=".activity.KeyCodeActivity"></activity>
+        <activity android:name=".activity.KeyCodeActivity" />
+        <activity android:name=".h5.H5Activity"></activity>
     </application>
 
 </manifest>
