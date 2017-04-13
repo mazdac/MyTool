@@ -117,7 +117,23 @@
         <activity android:name=".wifisocket.SearchWifiDeviceActivity" />
         <activity android:name=".activity.KeyCodeActivity" />
         <activity android:name=".h5.H5Activity" />
-        <activity android:name=".jni.JniActivity"></activity>
+        <activity android:name=".thread.ThreadCommunicationActivity" />
+
+        <service android:name=".aidltest.AIDLService">
+            <intent-filter>
+                <action android:name="android.intent.action.AIDLService" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+
+        <activity android:name=".aidltest.AidlActivity" />
+        <activity android:label="自定义view" android:name=".selfView.SelfViewActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".jni.JniActivity"/>
     </application>
 
 </manifest>

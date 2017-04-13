@@ -102,6 +102,12 @@
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
                 android:text="h5" />
+            <Button
+                android:id="@+id/self_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:text="self-view" />
         </LinearLayout>
     </ScrollView>
 
@@ -190,6 +196,18 @@
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
                 android:text="keycode" />
+            <Button
+                android:id="@+id/thread"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:text="thread" />
+            <Button
+                android:id="@+id/aidl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:text="aidl" />
         </LinearLayout>
     </ScrollView>
 

@@ -1,5 +1,7 @@
 package com.waterfairy.tool.rxjava.retrofit;
 
+import com.waterfairy.tool.rxjava.rxjava_retrofit.bean.BaseResponseObject;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -14,9 +16,8 @@ import static com.waterfairy.tool.rxjava.HttpDef.BASE_URL;
 
 public class Http {
 
-    private final static Http HTTP = new Http();
     private Retrofit retrofit;
-    private RetrofitService retrofitService;
+    private  static  RetrofitService retrofitService;
 
     private Http() {
         retrofit = new Retrofit.Builder()
@@ -26,21 +27,8 @@ public class Http {
         retrofitService = retrofit.create(RetrofitService.class);
     }
 
-    public static Http getInstance() {
-        return HTTP;
+    public static RetrofitService getInstance() {
+        return retrofitService;
     }
 
-    public void login(String userName, String password) {
-        retrofitService.login(userName, password).enqueue(new Callback<UserBean>() {
-            @Override
-            public void onResponse(Call<UserBean> call, Response<UserBean> response) {
-                response.body();
-            }
-
-            @Override
-            public void onFailure(Call<UserBean> call, Throwable t) {
-
-            }
-        });
-    }
 }

@@ -1,5 +1,7 @@
 package com.waterfairy.tool.rxjava.retrofit;
 
+import com.waterfairy.tool.databinding.User;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -10,7 +12,8 @@ import retrofit2.http.Query;
 
 public interface RetrofitService {
     @GET("app/login")
-    Call<UserBean> login(
+    Call<Response<UserBean>> login(
             @Query("userName") String userName,
             @Query("password") String password);
+
 }
