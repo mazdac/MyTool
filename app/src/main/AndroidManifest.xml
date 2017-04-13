@@ -116,7 +116,8 @@
         <activity android:name=".wifisocket.WifiMangerActivity" />
         <activity android:name=".wifisocket.SearchWifiDeviceActivity" />
         <activity android:name=".activity.KeyCodeActivity" />
-        <activity android:name=".h5.H5Activity"></activity>
+        <activity android:name=".h5.H5Activity" />
+        <activity android:name=".jni.JniActivity"></activity>
     </application>
 
 </manifest>

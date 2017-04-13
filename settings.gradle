@@ -1,1 +1,1 @@
-include ':app', ':waterfairylib', ':musicplayer'
+include ':app', ':waterfairylib', ':musicplayer', ':myapplication'

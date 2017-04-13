@@ -28,6 +28,11 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk{
+            moduleName "JniTest"
+            ldLibs "log","z","m"
+            abiFilters "armeabi","armeabi-v7a","x86"
+        }
     }
     buildTypes {
         release {
@@ -53,6 +58,12 @@ android {
 
         }
     }
+
+//    sourceSets {
+//        main {
+//            jni.srcDirs = []
+//        }
+//    }
     android.applicationVariants.all { variant ->
         variant.outputs.each { output ->
             output.outputFile = new File(output.outputFile.parent,
