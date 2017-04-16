@@ -9,20 +9,19 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+        <!--播放器主界面-->
         <include layout="@layout/content_main" />
-
+        <!--透明工具栏-->
         <include
             layout="@layout/toolbar_transparent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="26dp" />
     </RelativeLayout>
-
+    <!--左滑菜单-->
     <include
         layout="@layout/slide_menu"
         android:layout_width="@dimen/width_slide_menu"
-
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:clickable="true" />

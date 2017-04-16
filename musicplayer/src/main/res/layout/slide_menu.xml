@@ -2,13 +2,69 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#44000000"
+    android:background="#88000000"
+    android:clickable="true"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingTop="40dp">
 
     <ImageView
-        android:src="@mipmap/ic_launcher"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:src="@mipmap/zero" />
+
+    <LinearLayout
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/dp10"
+        android:paddingTop="@dimen/dp10"
+        android:id="@+id/my_music"
+        android:paddingBottom="@dimen/dp10"
+        android:background="@drawable/slide_menu_button_style"
+        android:layout_width="match_parent"
+        android:clickable="true"
+        android:onClick="onClickSlideMenu"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/top_slide_menu_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/height_icon_slide_menu_button"
+            android:layout_height="@dimen/height_icon_slide_menu_button"
+            android:layout_marginRight="@dimen/right_margin_slide_menu_button_icon"
+            android:src="@mipmap/ic_music" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/my_music"
+            android:textColor="@color/white" />
+    </LinearLayout>
+    <LinearLayout
+        android:onClick="onClickSlideMenu"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:id="@+id/file_folder"
+        android:paddingRight="@dimen/dp10"
+        android:paddingTop="@dimen/dp10"
+        android:paddingBottom="@dimen/dp10"
+        android:background="@drawable/slide_menu_button_style"
+        android:layout_width="match_parent"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/height_icon_slide_menu_button"
+            android:layout_height="@dimen/height_icon_slide_menu_button"
+            android:layout_marginRight="@dimen/right_margin_slide_menu_button_icon"
+            android:src="@mipmap/file_folder" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/file_folder"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
 </LinearLayout>

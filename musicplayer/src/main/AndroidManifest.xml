@@ -10,16 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.waterfairy.zero.activity.SplashActivity"
+            android:name=".activity.SplashActivity"
             android:theme="@style/AppTheme.FullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.waterfairy.zero.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:theme="@style/TranslucentThemNoActionBar" />
+        <activity android:name=".activity.MusicListActivity"></activity>
     </application>
 
 </manifest>

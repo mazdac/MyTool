@@ -3,4 +3,6 @@
     <string name="zero_nusic">零点音乐</string>
     <string name="hear_till_acme">听到极致</string>
     <string name="search">搜索</string>
+    <string name="my_music">我的音乐</string>
+    <string name="file_folder">文件夹</string>
 </resources>

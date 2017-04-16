@@ -14,4 +14,12 @@
     <dimen name="width_min_play_num">30dp</dimen>
     <dimen name="dp1">1dp</dimen>
     <dimen name="dp2">2dp</dimen>
+    <dimen name="padding_card_view">20dp</dimen>
+    <dimen name="height_slide_menu_button">30dp</dimen>
+    <dimen name="top_slide_menu_content">50dp</dimen>
+    <dimen name="height_button_normal">40dp</dimen>
+    <dimen name="height_icon_slide_menu_button">24dp</dimen>
+    <dimen name="right_margin_slide_menu_button_icon">30dp</dimen>
+    <dimen name="dp10">10dp</dimen>
+    <dimen name="dp20">20dp</dimen>
 </resources>

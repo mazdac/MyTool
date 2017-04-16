@@ -33,23 +33,31 @@ public class ToolBarUtils {
         return toolbar;
     }
 
-    public static Toolbar initToolBarMenu(Activity context, int drawerLayoutId, int toolbarId, int titleId, boolean transparent) {
-        AppCompatActivity activity = (AppCompatActivity) context;
-        DrawerLayout drawerLayout = (DrawerLayout) activity.findViewById(drawerLayoutId);
-        Toolbar toolbar = (Toolbar) activity.findViewById(toolbarId);
+    /**
+     * @param activity
+     * @param drawerLayoutId 布局id
+     * @param toolbarId      toolBar id
+     * @param titleId        title res id
+     * @param transparent    透明?
+     * @return
+     */
+    public static Toolbar initToolBarMenu(Activity activity, int drawerLayoutId, int toolbarId, int titleId, boolean transparent) {
+        AppCompatActivity appCompatActivity = (AppCompatActivity) activity;
+        DrawerLayout drawerLayout = (DrawerLayout) appCompatActivity.findViewById(drawerLayoutId);
+        Toolbar toolbar = (Toolbar) appCompatActivity.findViewById(toolbarId);
         if (transparent) {
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
                 toolbar.setElevation(0);
             }
         }
-        activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setHomeButtonEnabled(true);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(context, drawerLayout, toolbar, titleId, titleId);
+        appCompatActivity.setSupportActionBar(toolbar);
+        appCompatActivity.getSupportActionBar().setHomeButtonEnabled(true);
+        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(appCompatActivity, drawerLayout, toolbar, titleId, titleId);
         toggle.syncState();
         drawerLayout.addDrawerListener(toggle);
         if (titleId == 0) {
-            activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+            appCompatActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         return toolbar;
     }
