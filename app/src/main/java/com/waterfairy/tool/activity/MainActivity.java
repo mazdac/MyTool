@@ -121,6 +121,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.self_view:
                 startActivity(new Intent(this, SelfViewActivity.class));
+
+            case R.id.viewpager:
+                startActivity(new Intent(this, ViewPagerActivity.class));
                 break;
         }
     }

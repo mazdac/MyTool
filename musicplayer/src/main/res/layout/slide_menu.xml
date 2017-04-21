@@ -58,7 +58,7 @@
             android:layout_width="@dimen/height_icon_slide_menu_button"
             android:layout_height="@dimen/height_icon_slide_menu_button"
             android:layout_marginRight="@dimen/right_margin_slide_menu_button_icon"
-            android:src="@mipmap/file_folder" />
+            android:src="@mipmap/zero" />
 
         <TextView
             android:layout_width="match_parent"

@@ -26,6 +26,11 @@ public class PermissionUtils {
      */
     public final static int REQUEST_CAMERA = 3;
 
+    /**
+     * 录音
+     */
+    public final static int REQUEST_RECORD = 4;
+
 
     public static void requestPermission(Activity activity, int request) {
         String[] permissions = null;
@@ -43,6 +48,10 @@ public class PermissionUtils {
                 permissions = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE
                         , Manifest.permission.WRITE_EXTERNAL_STORAGE};
                 permission = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+                break;
+            case REQUEST_RECORD:
+                permissions = new String[]{Manifest.permission.RECORD_AUDIO};
+                permission = Manifest.permission.RECORD_AUDIO;
                 break;
         }
         if (permissions != null) {

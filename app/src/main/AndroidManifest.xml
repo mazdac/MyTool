@@ -128,12 +128,15 @@
         </service>
 
         <activity android:name=".aidltest.AidlActivity" />
-        <activity android:label="自定义view" android:name=".selfView.SelfViewActivity">
+        <activity
+            android:name=".selfView.SelfViewActivity"
+            android:label="自定义view">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".jni.JniActivity"/>
+        <activity android:name=".jni.JniActivity" />
+        <activity android:name=".activity.ViewPagerActivity"></activity>
     </application>
 
 </manifest>

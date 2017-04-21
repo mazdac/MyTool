@@ -4,8 +4,8 @@ android {
         config {
             keyAlias 'tool'
             keyPassword 'tool.com'
-            storeFile file('F:/Program Files/android-stuido-2.3/key/tool.jks')
-            storePassword 'waterfairy.com'
+            storeFile file('C:/Users/Leon/AndroidStudioProjects/MyTool/tool.jks')
+            storePassword 'tool.com'
         }
     }
     splits {
@@ -28,10 +28,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        ndk{
+        ndk {
             moduleName "JniTest"
-            ldLibs "log","z","m"
-            abiFilters "armeabi","armeabi-v7a","x86"
+            ldLibs "log", "z", "m"
+            abiFilters "armeabi", "armeabi-v7a", "x86"
         }
     }
     buildTypes {

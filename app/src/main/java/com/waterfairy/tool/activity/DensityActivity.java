@@ -56,7 +56,9 @@ public class DensityActivity extends AppCompatActivity {
                         "cpuAbi2\t:" + cpuAbi2 + "\n" +
                         "sdk\t:" + sdk + "\n" +
                         "release\t:" + release + "\n" +
-                        "sdkInt\t:" + sdkInt + "\n";
+                        "sdkInt\t:" + sdkInt + "\n" +
+                        "w_dp\t:" + widthPixels/density + "\n" +
+                        "h_dp\t:" + heightPixels/density + "\n";
 
         ((TextView) findViewById(R.id.text)).setText(info);
     }
