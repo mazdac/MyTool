@@ -26,12 +26,26 @@ public class DownloadInfo {
     private String basePath;//基础路径
     private String savePath;//保存路径
     private long currentLen;//当前下载的位置
+    private long lastLen;//上次下载的位置
     private long totalLen;//总长度
     private Call<ResponseBody> call;
     private OnDownloadingListener onDownloadingListener;
     private int state;//下载状态
     private DownloadService downloadService;
+    private DownloadControl control;
     private int timeOut = 5;//
+
+    public DownloadControl getControl() {
+        return control;
+    }
+
+    public long getLastLen() {
+        return lastLen;
+    }
+
+    public void setLastLen(long lastLen) {
+        this.lastLen = lastLen;
+    }
 
     public DownloadService getDownloadService() {
         return downloadService;
@@ -112,5 +126,9 @@ public class DownloadInfo {
 
     public void setCall(retrofit2.Call<ResponseBody> call) {
         this.call = call;
+    }
+
+    public void setControl(DownloadControl control) {
+        this.control = control;
     }
 }

@@ -1,5 +1,7 @@
 package com.waterfairy.tool.rxjava.retrofit.down;
 
+import com.waterfairy.tool.omron.OmronActivity;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -27,13 +29,14 @@ public class DownloadManger {
         return DOWNLOAD_MANGER;
     }
 
-    public void downFile(final DownloadInfo info) {
+    public DownloadControl downFile(final DownloadInfo info) {
         final OnDownloadingListener onDownloadingListener = info.getOnDownloadingListener();
+        DownloadControl control = null;
         DownloadService downloadService = info.getDownloadService();
         if (downloadService == null) {
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .connectTimeout(info.getTimeOut(), TimeUnit.SECONDS)
-                    .addInterceptor(new DownloadInterceptor(new DownloadProgress(onDownloadingListener,info)))
+                    .addInterceptor(new DownloadInterceptor(new DownloadProgress(onDownloadingListener, info)))
                     .build();
             downloadService = new Retrofit.Builder()
                     .client(okHttpClient)
@@ -44,7 +47,6 @@ public class DownloadManger {
                     .create(DownloadService.class);
         }
         Call<ResponseBody> responseCall = downloadService.download("bytes=" + info.getCurrentLen() + "-", info.getUrl());
-
         responseCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
@@ -56,9 +58,14 @@ public class DownloadManger {
                 onDownloadingListener.onError("下载失败");
             }
         });
-
         info.setCall(responseCall);
+        control = info.getControl();
+        if (control == null) {
+            control = new Control(info);
+            info.setControl(control);
+        }
         onDownloadingListener.onStartDownload();
+        return control;
     }
 
     private void writeCache(ResponseBody responseBody, DownloadInfo info) {
@@ -71,13 +78,13 @@ public class DownloadManger {
             info.setTotalLen(totalLen);
         } else {
             totalLen = info.getTotalLen();
+            info.setLastLen(currentLen);
         }
         if (canSave(file)) {
             FileChannel channelOut = null;
             try {
                 RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rwd");
                 channelOut = randomAccessFile.getChannel();
-
                 MappedByteBuffer mappedByteBuffer =
                         channelOut.map(FileChannel.MapMode.READ_WRITE, currentLen, totalLen - currentLen);
                 byte[] buffer = new byte[1024 * 8];
@@ -122,11 +129,11 @@ public class DownloadManger {
         return canSave;
     }
 
-    public class DownloadProgress implements OnDownloadingListener {
+    private class DownloadProgress implements OnDownloadingListener {
         private OnDownloadingListener onDownloadingListener;
         private DownloadInfo downloadInfo;
 
-        public DownloadProgress(OnDownloadingListener onDownloadingListener, DownloadInfo downloadInfo) {
+        DownloadProgress(OnDownloadingListener onDownloadingListener, DownloadInfo downloadInfo) {
             this.onDownloadingListener = onDownloadingListener;
             this.downloadInfo = downloadInfo;
         }
@@ -138,6 +145,7 @@ public class DownloadManger {
 
         @Override
         public void onDownloading(boolean done, long total, long current) {
+            current = downloadInfo.getLastLen() + current;
             onDownloadingListener.onDownloading(done, downloadInfo.getTotalLen(), current);
             downloadInfo.setCurrentLen(current);
         }
@@ -145,6 +153,33 @@ public class DownloadManger {
         @Override
         public void onError(String msg) {
 
+        }
+    }
+
+    private class Control implements DownloadControl {
+        private DownloadInfo downloadInfo;
+
+        private Control(DownloadInfo info) {
+            this.downloadInfo = info;
+        }
+
+        @Override
+        public boolean start() {
+            if (downloadInfo == null) return false;
+            downFile(downloadInfo);
+            return true;
+        }
+
+        @Override
+        public boolean pause() {
+            downloadInfo.getCall().cancel();
+            return false;
+        }
+
+        @Override
+        public boolean stop() {
+            downloadInfo.getCall().cancel();
+            return false;
         }
     }
 }
