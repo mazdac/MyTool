@@ -113,6 +113,7 @@ dependencies {
     //retrofit(基于okhttp)
     //rxjava 与 retrofit 结合
     compile project(':waterfairylib')
+    compile files('src/main/libs/alipaySdk-20170309.jar')
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.mobsandgeeks:android-saripaar:2.0.3'

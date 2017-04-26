@@ -91,4 +91,40 @@ public class AssetsUtils {
         }
     }
 
+    /**
+     * @param context context
+     * @param path assets文件
+     * @return
+     * @throws IOException
+     */
+
+    public static synchronized String getText(Context context, String path) throws IOException {
+        InputStream is = getIS(context, path);
+        return isToString(is);
+
+    }
+
+    /**
+     * @param context context
+     * @param path assets文件
+     * @return InputStream
+     * @throws IOException
+     */
+    public static synchronized InputStream getIS(Context context, String path) throws IOException {
+        if (context == null) throw new IOException("context is null");
+        if (TextUtils.isEmpty(path)) throw new IOException("assets path is null");
+        return context.getAssets().open(path);
+    }
+
+    /**
+     * @param inputStream is
+     * @return String
+     * @throws IOException
+     */
+    public static synchronized String isToString(InputStream inputStream) throws IOException {
+        InputStreamReader isr = new InputStreamReader(inputStream);
+        BufferedReader bufferedReader = new BufferedReader(isr);
+        return bufferedReader.readLine();
+    }
+
 }
