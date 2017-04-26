@@ -136,7 +136,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".jni.JniActivity" />
-        <activity android:name=".activity.ViewPagerActivity"></activity>
+        <activity android:name=".activity.ViewPagerActivity" />
+        <activity android:name=".rxjava.retrofit.down.DownActivity"></activity>
     </application>
 
 </manifest>
