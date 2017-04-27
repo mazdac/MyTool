@@ -1,4 +1,4 @@
-package com.waterfairy.retrofit;
+package com.waterfairy.retrofit.download;
 
 /**
  * Created by shui on 2017/4/26.

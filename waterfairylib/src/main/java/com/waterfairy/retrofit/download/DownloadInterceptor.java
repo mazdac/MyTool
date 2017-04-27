@@ -1,4 +1,4 @@
-package com.waterfairy.retrofit;
+package com.waterfairy.retrofit.download;
 
 import java.io.IOException;
 
