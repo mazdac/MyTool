@@ -1,4 +1,4 @@
-package com.waterfairy.tool.rxjava.retrofit.down;
+package com.waterfairy.retrofit;
 
 import java.io.IOException;
 
@@ -10,7 +10,6 @@ import okio.Buffer;
 import okio.BufferedSource;
 import okio.ForwardingSource;
 import okio.Okio;
-import okio.Sink;
 import okio.Source;
 
 /**

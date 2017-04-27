@@ -1,4 +1,4 @@
-package com.waterfairy.tool.rxjava.retrofit.down;
+package com.waterfairy.retrofit;
 
 /**
  * Created by shui on 2017/4/26.

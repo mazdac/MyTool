@@ -6,6 +6,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.waterfairy.retrofit.DownloadControl;
+import com.waterfairy.retrofit.DownloadInfo;
+import com.waterfairy.retrofit.DownloadManger;
+import com.waterfairy.retrofit.OnDownloadingListener;
 import com.waterfairy.tool.R;
 
 public class DownActivity extends AppCompatActivity {

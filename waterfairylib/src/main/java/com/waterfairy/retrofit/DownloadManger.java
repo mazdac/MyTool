@@ -1,6 +1,5 @@
-package com.waterfairy.tool.rxjava.retrofit.down;
+package com.waterfairy.retrofit;
 
-import com.waterfairy.tool.omron.OmronActivity;
 
 import java.io.File;
 import java.io.IOException;

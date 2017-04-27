@@ -1,4 +1,4 @@
-package com.waterfairy.tool.rxjava.retrofit.down;
+package com.waterfairy.retrofit;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

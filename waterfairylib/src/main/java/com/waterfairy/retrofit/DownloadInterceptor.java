@@ -1,6 +1,4 @@
-package com.waterfairy.tool.rxjava.retrofit.down;
-
-import android.graphics.drawable.GradientDrawable;
+package com.waterfairy.retrofit;
 
 import java.io.IOException;
 
