@@ -20,7 +20,7 @@ import com.waterfairy.tool.image.ImageActivity;
 import com.waterfairy.tool.qr.QRListActivity;
 import com.waterfairy.tool.regular.RegularActivity;
 import com.waterfairy.tool.rxjava.RXJavaActivity;
-import com.waterfairy.tool.rxjava.retrofit.RetrofitActivity;
+import com.waterfairy.tool.rxjava.retrofit.down.DownActivity;
 import com.waterfairy.tool.selfView.SelfViewActivity;
 import com.waterfairy.tool.thread.ThreadCommunicationActivity;
 import com.waterfairy.utils.PermissionUtils;
@@ -125,8 +125,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.viewpager:
                 startActivity(new Intent(this, ViewPagerActivity.class));
                 break;
-            case R.id.retrofit:
-                startActivity(new Intent(this, RetrofitActivity.class));
+            case R.id.down:
+                startActivity(new Intent(this, DownActivity.class));
                 break;
         }
     }
