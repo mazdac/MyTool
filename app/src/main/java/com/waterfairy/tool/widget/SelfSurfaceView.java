@@ -113,7 +113,6 @@ public class SelfSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                     try {
                         Thread.sleep(1);
                         if (color == Color.RED) {
-
                             drawSin(num, 1024);
                         } else if (color == Color.GREEN) {
                             drawCos(num, 1024);

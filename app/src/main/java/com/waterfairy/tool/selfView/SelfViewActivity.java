@@ -10,12 +10,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.waterfairy.tool.R;
+import com.waterfairy.tool.widget.PieView;
 import com.waterfairy.tool.widget.SelfSurfaceView;
 import com.waterfairy.tool.widget.SelfView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SelfViewActivity extends AppCompatActivity implements View.OnTouchListener {
     private static final String TAG = "selfActivity";
@@ -25,6 +30,7 @@ public class SelfViewActivity extends AppCompatActivity implements View.OnTouchL
     private Bitmap bitmap;
     private ImageView imageView;
     private SelfSurfaceView selfSurfaceView;
+    private PieView pieView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,7 @@ public class SelfViewActivity extends AppCompatActivity implements View.OnTouchL
         selfView.setOnTouchListener(this);
         imageView = (ImageView) findViewById(R.id.img);
         imageView = (ImageView) findViewById(R.id.img);
+        pieView = (PieView) findViewById(R.id.pie_view);
         selfSurfaceView = (SelfSurfaceView) findViewById(R.id.surface_view);
 
         {
@@ -44,10 +51,33 @@ public class SelfViewActivity extends AppCompatActivity implements View.OnTouchL
             paint.setColor(Color.parseColor("#ff0000"));
             paint.setStrokeWidth(6);
         }
-
+        initPieView();
     }
 
+    private void initPieView() {
 
+        pieView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pieView.reStart();
+            }
+        });
+        List<Float> listNum = new ArrayList<>();
+        listNum.add(50f);
+        listNum.add(19f);
+        listNum.add(56f);
+        List<Integer> listColor=new ArrayList<>();
+        listColor.add(Color.parseColor("#fdd29d"));
+        listColor.add(Color.parseColor("#fc8f26"));
+        listColor.add(Color.parseColor("#fca949"));
+        pieView.setSleepTIme(1);
+        pieView.setTimes(120);
+//        pieView.setBgCircle(10,Color.MAGENTA);
+//        开始: 1493357805844
+//        结束: 1493357837231
+//        差值: 31,387 31秒  25秒   多出6秒
+        pieView.initData(listNum,listColor);
+    }
     float startX, startY;
 
     @Override
@@ -93,9 +123,9 @@ public class SelfViewActivity extends AppCompatActivity implements View.OnTouchL
     public void onClick(View view) {
         if (view.getId() == R.id.sin) {
             selfSurfaceView.setColor(Color.RED);
-        } else if (view.getId()==R.id.cos){
+        } else if (view.getId() == R.id.cos) {
             selfSurfaceView.setColor(Color.GREEN);
-        }else if (view.getId()==R.id.cir){
+        } else if (view.getId() == R.id.cir) {
             selfSurfaceView.setColor(Color.BLUE);
         }
 

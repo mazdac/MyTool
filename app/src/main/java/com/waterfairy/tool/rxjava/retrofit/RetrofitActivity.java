@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.waterfairy.retrofit.download.DownloadManger;
 import com.waterfairy.tool.R;
-import com.waterfairy.tool.rxjava.retrofit.down.RetrofitDownloadManger;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,29 +32,29 @@ public class RetrofitActivity extends AppCompatActivity {
     }
 
     private void getFil(String savePath,String name) {
-        String fileUrl = "01a3bd5737f2e4fcc0c1939b4798b259b3c31247e/com.supercell.clashroyale.mi.apk";
-        RetrofitDownloadManger retrofitDownloadManger = RetrofitDownloadManger.getInstance();
-        try {
-            retrofitDownloadManger.downloadFile(savePath,name,new RetrofitDownloadManger.OnDownLoadingListener(){
-
-                @Override
-                public void downloadStart() {
-
-                }
-
-                @Override
-                public void onDownloading(boolean done, long totalLen, long currentLen) {
-
-                }
-
-                @Override
-                public void onError() {
-
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        String fileUrl = "01a3bd5737f2e4fcc0c1939b4798b259b3c31247e/com.supercell.clashroyale.mi.apk";
+//        DownloadManger retrofitDownloadManger = DownloadManger.getInstance();
+//        try {
+//            retrofitDownloadManger.downloadFile(savePath,name,new RetrofitDownloadManger.OnDownLoadingListener(){
+//
+//                @Override
+//                public void downloadStart() {
+//
+//                }
+//
+//                @Override
+//                public void onDownloading(boolean done, long totalLen, long currentLen) {
+//
+//                }
+//
+//                @Override
+//                public void onError() {
+//
+//                }
+//            });
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
 
     }
