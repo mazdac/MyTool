@@ -66,6 +66,8 @@ public class SelfViewActivity extends AppCompatActivity implements View.OnTouchL
         listNum.add(90f);
         listNum.add(120f);
         listNum.add(150f);
+        listNum.add(20f);
+        listNum.add(40f);
         List<Integer> listColor=new ArrayList<>();
 //        listColor.add(Color.parseColor("#fdd29d"));
 //        listColor.add(Color.parseColor("#fc8f26"));
@@ -73,13 +75,21 @@ public class SelfViewActivity extends AppCompatActivity implements View.OnTouchL
         listColor.add(Color.RED);
         listColor.add(Color.BLUE);
         listColor.add(Color.GREEN);
+        listColor.add(Color.YELLOW);
+        listColor.add(Color.CYAN);
+        List<String> strings=new ArrayList<>();
+        strings.add("(90本)");
+        strings.add("(120本)");
+        strings.add("(20本)");
+        strings.add("(150本)");
+        strings.add("(40本)");
         pieView.setSleepTIme(1);
         pieView.setTimes(120);
 //        pieView.setBgCircle(10,Color.MAGENTA);
 //        开始: 1493357805844
 //        结束: 1493357837231
 //        差值: 31,387 31秒  25秒   多出6秒
-        pieView.initData(listNum,listColor);
+        pieView.initData(listNum,listColor,strings);
     }
     float startX, startY;
 
