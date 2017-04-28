@@ -151,9 +151,10 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private StrokePoint getStrokePoint(float angle) {
+        Log.i(TAG, "getStrokePoint: "+angle);
         StrokePoint strokePoint = new StrokePoint();
-        int x = (int) ((Math.sin(Math.toRadians(360-angle)) * mRadius + mHeight / 2));
-        int y = (int) ((Math.cos(Math.toRadians(360-angle)) * mRadius + mWidth / 2));
+        int y = (int) ( mHeight / 2-(Math.sin(Math.toRadians(angle)) * mRadius ));
+        int x = (int) ( (Math.cos(Math.toRadians(angle)) * mRadius )+mWidth/2);
         strokePoint.setX(x).setY(y);
         Log.i(TAG, "getStrokePoint: " + x + "--" + y);
         return strokePoint;
@@ -200,7 +201,10 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
 
         for (int i = 0; i < mCount; i++) {
             StrokePoint strokePoint = mStrokePoints.get(i);
-            canvas.drawCircle(strokePoint.getX(), strokePoint.getY(), 10, mPaints.get((i + 2) % 3));
+            Paint paint=new Paint();
+            paint.setAntiAlias(true);
+            paint.setColor(Color.DKGRAY);
+            canvas.drawCircle(strokePoint.getX(), strokePoint.getY(), 10,paint);
         }
         surfaceHolder.unlockCanvasAndPost(canvas);
     }

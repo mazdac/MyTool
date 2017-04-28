@@ -63,9 +63,9 @@ public class SelfViewActivity extends AppCompatActivity implements View.OnTouchL
             }
         });
         List<Float> listNum = new ArrayList<>();
-        listNum.add(56f);
-        listNum.add(56f);
-        listNum.add(56f);
+        listNum.add(90f);
+        listNum.add(120f);
+        listNum.add(150f);
         List<Integer> listColor=new ArrayList<>();
 //        listColor.add(Color.parseColor("#fdd29d"));
 //        listColor.add(Color.parseColor("#fc8f26"));
