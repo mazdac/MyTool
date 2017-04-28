@@ -14,6 +14,7 @@ import android.view.SurfaceView;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
 
 /**
  * 圆饼图
@@ -47,7 +48,8 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
     private boolean drawCircle;
     private int circleColor;
     private int circleStrokeWidth;
-    private int startDegree=-90;
+    private int startDegree = 0;
+    private List<StrokePoint> mStrokePoints;
 
 
     public PieView(Context context, AttributeSet attrs) {
@@ -55,7 +57,6 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
         surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);
         surfaceHolder.setFormat(PixelFormat.TRANSPARENT);
-        padding = 20;
     }
 
     public PieView(Context context) {
@@ -80,7 +81,9 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
         mWidth = MeasureSpec.getSize(widthMeasureSpec);
         mHeight = MeasureSpec.getSize(heightMeasureSpec);
         Log.i(TAG, "onMeasure: width:" + mWidth + " -height" + mHeight);
-        mRadius = (Math.min(mHeight, mWidth) - padding * 2) / 2;
+        int tempRadius = (Math.min(mHeight, mWidth)) / 2;
+        mRadius = (int) (tempRadius * 4F / 7);
+        padding = (int) (tempRadius * 1F / 7);
         if (mCircleRectF == null) {
             int halfWidth = mWidth / 2;
             int halfHeight = mHeight / 2;
@@ -90,14 +93,36 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
                     halfWidth + mRadius,
                     halfHeight + mRadius);
         }
+        initStrokePoint();
+
+    }
+
+    private void initStrokePoint() {
+        mStrokePoints = new ArrayList<>();
+        for (int i = 0; i < mCount; i++) {
+            float angle = mStartAngles.get(i) + mAngles.get(i) / 2;
+            mStrokePoints.add(getStrokePoint(angle));
+        }
     }
 
     public void initData(List<Float> ratios, List<Integer> colors) {
         mAngles = new ArrayList<>();
         mStartAngles = new ArrayList<>();
         mPaints = new ArrayList<>();
+        mStrokePoints = new ArrayList<>();
         mColors = colors;
         mCount = ratios.size();
+        calcCircleData(ratios, colors);
+        //计算文本所需数据
+    }
+
+    /**
+     * 计算圆图所需数据
+     *
+     * @param ratios
+     * @param colors
+     */
+    private void calcCircleData(List<Float> ratios, List<Integer> colors) {
         float total = 0;
         //总数
         for (int i = 0; i < mCount; i++) {
@@ -113,7 +138,9 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
             //计算对应开始角度
             startAngle += lastAngle;
             lastAngle = angle;
-            mStartAngles.add(startAngle+startDegree);
+            float startTemp = startAngle + startDegree;
+            mStartAngles.add(startTemp);
+
             //设置对应颜色
             Paint paint = new Paint();
             paint.setAntiAlias(true);//去锯齿
@@ -121,6 +148,15 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
             paint.setColor(colors.get(i));//颜色
             mPaints.add(paint);
         }
+    }
+
+    private StrokePoint getStrokePoint(float angle) {
+        StrokePoint strokePoint = new StrokePoint();
+        int x = (int) ((Math.sin(Math.toRadians(360-angle)) * mRadius + mHeight / 2));
+        int y = (int) ((Math.cos(Math.toRadians(360-angle)) * mRadius + mWidth / 2));
+        strokePoint.setX(x).setY(y);
+        Log.i(TAG, "getStrokePoint: " + x + "--" + y);
+        return strokePoint;
     }
 
     private void startDraw() {
@@ -150,10 +186,23 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
                     currentTimes++;
 
                 }
+                drawPoint();
                 Log.i(TAG, "结束: " + new Date().getTime());
             }
         });
         drawThread.start();
+    }
+
+    private void drawPoint() {
+
+        Canvas canvas = surfaceHolder.lockCanvas();
+
+
+        for (int i = 0; i < mCount; i++) {
+            StrokePoint strokePoint = mStrokePoints.get(i);
+            canvas.drawCircle(strokePoint.getX(), strokePoint.getY(), 10, mPaints.get((i + 2) % 3));
+        }
+        surfaceHolder.unlockCanvasAndPost(canvas);
     }
 
     private void drawBg() {
@@ -228,5 +277,27 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
         Log.i(TAG, "surfaceDestroyed: ");
     }
 
+    class StrokePoint {
+        public int getX() {
+            return x;
+        }
+
+        public StrokePoint setX(int x) {
+            this.x = x;
+            return this;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        public StrokePoint setY(int y) {
+            this.y = y;
+            return this;
+        }
+
+        private int x;
+        private int y;
+    }
 
 }

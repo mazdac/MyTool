@@ -63,13 +63,16 @@ public class SelfViewActivity extends AppCompatActivity implements View.OnTouchL
             }
         });
         List<Float> listNum = new ArrayList<>();
-        listNum.add(50f);
-        listNum.add(19f);
+        listNum.add(56f);
+        listNum.add(56f);
         listNum.add(56f);
         List<Integer> listColor=new ArrayList<>();
-        listColor.add(Color.parseColor("#fdd29d"));
-        listColor.add(Color.parseColor("#fc8f26"));
-        listColor.add(Color.parseColor("#fca949"));
+//        listColor.add(Color.parseColor("#fdd29d"));
+//        listColor.add(Color.parseColor("#fc8f26"));
+//        listColor.add(Color.parseColor("#fca949"));
+        listColor.add(Color.RED);
+        listColor.add(Color.BLUE);
+        listColor.add(Color.GREEN);
         pieView.setSleepTIme(1);
         pieView.setTimes(120);
 //        pieView.setBgCircle(10,Color.MAGENTA);
