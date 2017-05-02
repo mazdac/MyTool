@@ -29,11 +29,11 @@ public class DownloadInfo {
     private long lastLen;//上次下载的位置
     private long totalLen;//总长度
     private Call<ResponseBody> call;
-    private OnDownloadingListener onDownloadingListener;
+    private OnDownloadingListener onDownloadingListener;//下载监听
     private int state;//下载状态
-    private DownloadService downloadService;
-    private DownloadControl control;
-    private int timeOut = 5;//
+    private DownloadService downloadService;//下载服务
+    private DownloadControl control;//下载控制器
+    private int timeOut = 5;//超时 s
 
     public DownloadControl getControl() {
         return control;

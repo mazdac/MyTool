@@ -28,6 +28,12 @@ public class DownloadManger {
         return DOWNLOAD_MANGER;
     }
 
+    /**
+     * 下载文件
+     *
+     * @param info 下载信息
+     * @return 返回控制器
+     */
     public DownloadControl downFile(final DownloadInfo info) {
         final OnDownloadingListener onDownloadingListener = info.getOnDownloadingListener();
         DownloadControl control = null;
@@ -67,6 +73,12 @@ public class DownloadManger {
         return control;
     }
 
+    /**
+     * 文件存储
+     *
+     * @param responseBody
+     * @param info
+     */
     private void writeCache(ResponseBody responseBody, DownloadInfo info) {
         OnDownloadingListener onDownloadingListener = info.getOnDownloadingListener();
         File file = new File(info.getSavePath());
@@ -106,6 +118,12 @@ public class DownloadManger {
         }
     }
 
+    /**
+     * 创建文件
+     *
+     * @param file
+     * @return
+     */
     private boolean canSave(File file) {
         boolean canSave = false;
         if (file.exists()) {
