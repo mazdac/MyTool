@@ -14,6 +14,7 @@ public class DownloadInfo {
     public static final int STOP = 4;
     public static final int FINISH = 5;
     public static final int ERROR = 6;
+    private DownloadManger.DownloadProgress downloadProgress;
 
     public DownloadInfo(String basePath,String savePath,  String url, OnDownloadingListener onDownloadingListener) {
         this.basePath=basePath;
@@ -114,6 +115,9 @@ public class DownloadInfo {
 
     public void setOnDownloadingListener(OnDownloadingListener onDownloadingListener) {
         this.onDownloadingListener = onDownloadingListener;
+        if (downloadProgress!=null){
+            downloadProgress.setOnDownloadingListener(onDownloadingListener);
+        }
     }
 
     public int getState() {
@@ -130,5 +134,9 @@ public class DownloadInfo {
 
     public void setControl(DownloadControl control) {
         this.control = control;
+    }
+
+    public void setDownloadProgress(DownloadManger.DownloadProgress downloadProgress) {
+        this.downloadProgress = downloadProgress;
     }
 }

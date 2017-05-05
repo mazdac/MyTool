@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.HashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -23,6 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class DownloadManger {
 
     private static final DownloadManger DOWNLOAD_MANGER = new DownloadManger();
+    private HashMap<String, DownloadInfo> downloadInfoHashMap;
 
     public static DownloadManger getInstance() {
         return DOWNLOAD_MANGER;
@@ -35,13 +37,18 @@ public class DownloadManger {
      * @return 返回控制器
      */
     public DownloadControl downFile(final DownloadInfo info) {
+        if (downloadInfoHashMap == null) {
+            downloadInfoHashMap = new HashMap<>();
+        }
         final OnDownloadingListener onDownloadingListener = info.getOnDownloadingListener();
         DownloadControl control = null;
         DownloadService downloadService = info.getDownloadService();
         if (downloadService == null) {
+            DownloadProgress downloadProgress = new DownloadProgress(onDownloadingListener, info);
+            info.setDownloadProgress(downloadProgress);
             OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .connectTimeout(info.getTimeOut(), TimeUnit.SECONDS)
-                    .addInterceptor(new DownloadInterceptor(new DownloadProgress(onDownloadingListener, info)))
+                    .addInterceptor(new DownloadInterceptor(downloadProgress))
                     .build();
             downloadService = new Retrofit.Builder()
                     .client(okHttpClient)
@@ -70,6 +77,7 @@ public class DownloadManger {
             info.setControl(control);
         }
         onDownloadingListener.onStartDownload();
+        downloadInfoHashMap.put(info.getUrl(), info);
         return control;
     }
 
@@ -146,9 +154,14 @@ public class DownloadManger {
         return canSave;
     }
 
-    private class DownloadProgress implements OnDownloadingListener {
+    public class DownloadProgress implements OnDownloadingListener {
         private OnDownloadingListener onDownloadingListener;
         private DownloadInfo downloadInfo;
+
+        public void setOnDownloadingListener(OnDownloadingListener onDownloadingListener) {
+            this.onDownloadingListener = onDownloadingListener;
+
+        }
 
         DownloadProgress(OnDownloadingListener onDownloadingListener, DownloadInfo downloadInfo) {
             this.onDownloadingListener = onDownloadingListener;
@@ -163,8 +176,12 @@ public class DownloadManger {
         @Override
         public void onDownloading(boolean done, long total, long current) {
             current = downloadInfo.getLastLen() + current;
-            onDownloadingListener.onDownloading(done, downloadInfo.getTotalLen(), current);
+            if (onDownloadingListener != null)
+                onDownloadingListener.onDownloading(done, downloadInfo.getTotalLen(), current);
             downloadInfo.setCurrentLen(current);
+            if (done) {
+                downloadInfoHashMap.remove(downloadInfo.getUrl());
+            }
         }
 
         @Override
@@ -198,5 +215,12 @@ public class DownloadManger {
             downloadInfo.getCall().cancel();
             return false;
         }
+    }
+
+    public DownloadInfo getDownloadInfo(String url) {
+        if (downloadInfoHashMap != null) {
+            return downloadInfoHashMap.get(url);
+        }
+        return null;
     }
 }
