@@ -1,14 +1,6 @@
 apply plugin: 'com.android.library'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'tool'
-            keyPassword 'tool.com'
-            storeFile file('F:/studiospace/MyTool/tool.jks')
-            storePassword 'tool.com'
-        }
-    }
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {

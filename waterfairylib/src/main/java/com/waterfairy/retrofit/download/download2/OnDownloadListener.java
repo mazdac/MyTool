@@ -1,13 +1,15 @@
-package com.waterfairy.retrofit.download;
+package com.waterfairy.retrofit.download.download2;
 
 /**
  * Created by shui on 2017/4/26.
  */
 
-public interface OnDownloadingListener {
+public interface OnDownloadListener {
     void onStartDownload();
 
     void onDownloading(boolean done, long total, long current);
 
     void onError(String msg);
+
+    void onContinue();
 }

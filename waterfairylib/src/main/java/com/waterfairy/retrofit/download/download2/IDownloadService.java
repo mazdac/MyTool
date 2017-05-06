@@ -1,4 +1,4 @@
-package com.waterfairy.retrofit.download;
+package com.waterfairy.retrofit.download.download2;
 
 import okhttp3.Response;
 import okhttp3.ResponseBody;
@@ -13,7 +13,7 @@ import retrofit2.http.Url;
  * Created by shui on 2017/4/26.
  */
 
-public interface DownloadService {
+public interface IDownloadService {
     @Streaming
     @GET
     Call<ResponseBody> download(@Header("RANGE") String start, @Url String url);

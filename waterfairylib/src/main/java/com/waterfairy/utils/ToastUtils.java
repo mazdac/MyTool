@@ -1,5 +1,6 @@
 package com.waterfairy.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +41,16 @@ public class ToastUtils {
             mToast.cancel();
             mToast = null;
         }
+    }
+
+    public static void showOnUiThread(Activity activity, final String content) {
+        if (activity == null) return;
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                show(content);
+            }
+        });
 
     }
 }

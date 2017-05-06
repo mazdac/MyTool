@@ -4,7 +4,7 @@ android {
         config {
             keyAlias 'tool'
             keyPassword 'tool.com'
-            storeFile file('C:/Users/Leon/AndroidStudioProjects/MyTool/tool.jks')
+            storeFile file('tool.jks')
             storePassword 'tool.com'
         }
     }
