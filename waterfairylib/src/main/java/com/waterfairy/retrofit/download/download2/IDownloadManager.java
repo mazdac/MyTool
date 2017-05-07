@@ -12,42 +12,41 @@ public interface IDownloadManager {
      * @return
      */
     DownloadControl add(DownloadInfo downloadInfo);
+
     /**
-     * 添加下载
+     * 获取下载
      *
      * @param url
      * @return
      */
     DownloadControl get(String url);
+
     /**
      * 移除下载
      *
      * @param url
      */
-    void remove(String url);
+    boolean remove(String url);
 
     /**
-     * 移除下载
+     * 移除所有下载
      */
-
-    void removeAll();
+    boolean removeAll();
 
     /**
-     * 暂停下载
+     * 暂停所有下载
      */
-
-    void pauseAll();
+    boolean pauseAll();
 
     /**
-     * 停止下载
+     * 停止所有下载
      */
-
-    void stopAll();
+    boolean stopAll();
 
     /**
-     *
+     * 开始所有下载
      */
-    void startAll();
+    boolean startAll();
 
 
 }

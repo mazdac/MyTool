@@ -5,11 +5,10 @@ package com.waterfairy.retrofit.download.download2;
  */
 
 public interface OnDownloadListener {
-    void onStartDownload();
 
     void onDownloading(boolean done, long total, long current);
 
-    void onError(String msg);
+    void onError(int code);
 
-    void onContinue();
+    void onChange(int code);
 }

@@ -48,20 +48,18 @@ public class FileWriter {
                         record += len;
                     }
                     responseBody.byteStream().close();
-                } catch (IOException e) {
-                    onDownloadListener.onError("下载关闭");
-                } catch (NullPointerException e) {
-                    onDownloadListener.onError("下载关闭");
+                } catch (IOException | NullPointerException e) {
+                    onDownloadListener.onError(DownloadManager.PAUSE);
                 }
                 channelOut.close();
                 randomAccessFile.close();
             } catch (IOException e) {
                 e.printStackTrace();
-                onDownloadListener.onError("文件读取错误");
+                onDownloadListener.onError(DownloadManager.ERROR_FILE_SAVE);
             }
 
         } else {
-            onDownloadListener.onError("文件创建失败");
+            onDownloadListener.onError(DownloadManager.ERROR_FILE_CREATE);
         }
     }
 

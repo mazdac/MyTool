@@ -1,5 +1,8 @@
 package com.waterfairy.retrofit.download.download2;
 
+import com.waterfairy.retrofit.download.download.DownloadManger;
+
+import java.io.File;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -15,7 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class DownloadControl implements IDownloadControl, OnDownloadSuccessListener {
-
+    public static final int INIT = 0;
     public static final int START = 1;
     public static final int DOWNLOADING = 2;
     public static final int PAUSE = 3;
@@ -36,6 +39,9 @@ public class DownloadControl implements IDownloadControl, OnDownloadSuccessListe
         initDownload();
     }
 
+    public DownloadInfo getDownloadInfo() {
+        return downloadInfo;
+    }
 
     private void initDownload() {
         if (downloadService == null) {
@@ -63,9 +69,12 @@ public class DownloadControl implements IDownloadControl, OnDownloadSuccessListe
     @Override
     public void start() {
         if (downloadState == DOWNLOADING) {
-            returnMsg("正在下载中");
+            returnError(DownloadManager.ERROR_IS_DOWNLOADING);
         } else if (downloadState == FINISH) {
-            returnMsg("下载完成");
+            returnError(DownloadManager.ERROR_HAS_FINISHED);
+//        }
+//        else  if (downloadState == DownloadManager.STOP) {
+//            returnError(DownloadManager.ERROR_HAS_STOP);
         } else {
             call = downloadService.download("bytes=" + downloadInfo.getCurrentLen() + "-", url);
             call.enqueue(new Callback<ResponseBody>() {
@@ -79,27 +88,30 @@ public class DownloadControl implements IDownloadControl, OnDownloadSuccessListe
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable throwable) {
-                    returnMsg("下载失败");
+                    returnError(DownloadManager.ERROR_NET);
                 }
             });
             OnDownloadListener downloadListener = getDownloadListener();
-
             if (downloadListener != null) {
                 if (downloadState == PAUSE || downloadState == STOP) {
-                    downloadListener.onContinue();
+                    returnChange(DownloadManager.CONTINUE);
                 } else {
-                    downloadListener.onStartDownload();
+                    returnChange(DownloadManager.START);
                 }
             }
             downloadState = DOWNLOADING;
         }
-
-
     }
 
-    private void returnMsg(String msg) {
+
+    private void returnChange(int code) {
         OnDownloadListener downloadListener = getDownloadListener();
-        if (downloadListener != null) downloadListener.onError(msg);
+        if (downloadListener != null) downloadListener.onError(code);
+    }
+
+    private void returnError(int code) {
+        OnDownloadListener downloadListener = getDownloadListener();
+        if (downloadListener != null) downloadListener.onError(code);
     }
 
     private OnDownloadListener getDownloadListener() {
@@ -112,17 +124,25 @@ public class DownloadControl implements IDownloadControl, OnDownloadSuccessListe
     @Override
     public void pause() {
         handle(PAUSE);
+        returnChange(DownloadManager.PAUSE);
     }
 
     private void handle(int state) {
         if (call != null)
             call.cancel();
         downloadState = state;
+
     }
 
     @Override
     public void stop() {
         handle(STOP);
+        if (downloadInfo != null) {
+            downloadInfo.setCurrentLen(0);
+            File file = new File(downloadInfo.getSavePath());
+            if (file.exists()) file.delete();
+        }
+        returnChange(DownloadManager.STOP);
     }
 
     public int getState() {
@@ -133,5 +153,6 @@ public class DownloadControl implements IDownloadControl, OnDownloadSuccessListe
     public void onDownloadSuccess(String url) {
         downloadState = FINISH;
         DownloadManager.getInstance().remove(url);
+        returnChange(DownloadManager.FINISHED);
     }
 }
