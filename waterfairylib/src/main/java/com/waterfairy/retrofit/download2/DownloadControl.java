@@ -1,6 +1,4 @@
-package com.waterfairy.retrofit.download.download2;
-
-import com.waterfairy.retrofit.download.download.DownloadManger;
+package com.waterfairy.retrofit.download2;
 
 import java.io.File;
 import java.util.concurrent.Executors;

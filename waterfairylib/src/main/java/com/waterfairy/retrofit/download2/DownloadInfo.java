@@ -1,4 +1,4 @@
-package com.waterfairy.retrofit.download.download2;
+package com.waterfairy.retrofit.download2;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;

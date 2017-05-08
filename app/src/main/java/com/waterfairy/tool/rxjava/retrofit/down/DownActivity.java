@@ -7,11 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.android.exoplayer.DefaultLoadControl;
-import com.waterfairy.retrofit.download.download2.DownloadControl;
-import com.waterfairy.retrofit.download.download2.DownloadManager;
-import com.waterfairy.retrofit.download.download2.DownloadInfo;
-import com.waterfairy.retrofit.download.download2.OnDownloadListener;
+import com.waterfairy.retrofit.download2.DownloadControl;
+import com.waterfairy.retrofit.download2.DownloadManager;
+import com.waterfairy.retrofit.download2.DownloadInfo;
+import com.waterfairy.retrofit.download2.OnDownloadListener;
 import com.waterfairy.tool.R;
 import com.waterfairy.utils.ToastUtils;
 
