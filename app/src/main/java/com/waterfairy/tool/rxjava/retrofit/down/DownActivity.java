@@ -72,11 +72,15 @@ public class DownActivity extends AppCompatActivity implements DownloadManager.O
         setPercent(textView2, downloadInfo.getCurrentLen(), downloadInfo.getTotalLen());
     }
 
+    private long current;
+
     private OnDownloadListener getDownloadListener1() {
         downloadListener = new OnDownloadListener() {
 
             @Override
             public void onDownloading(final boolean done, final long total, final long current) {
+                if (DownActivity.this.current == current) return;
+                DownActivity.this.current = current;
                 Log.i(TAG, "onDownloading: " + done + "-" + current + "-" + total);
                 DownActivity.this.runOnUiThread(new Runnable() {
                     @Override

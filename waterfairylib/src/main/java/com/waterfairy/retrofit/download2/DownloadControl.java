@@ -104,7 +104,7 @@ public class DownloadControl implements IDownloadControl, OnDownloadSuccessListe
 
     private void returnChange(int code) {
         OnDownloadListener downloadListener = getDownloadListener();
-        if (downloadListener != null) downloadListener.onError(code);
+        if (downloadListener != null) downloadListener.onChange(code);
     }
 
     private void returnError(int code) {
@@ -150,7 +150,7 @@ public class DownloadControl implements IDownloadControl, OnDownloadSuccessListe
     @Override
     public void onDownloadSuccess(String url) {
         downloadState = FINISH;
-        DownloadManager.getInstance().remove(url);
+        DownloadManager.getInstance().onFinished(url);
         returnChange(DownloadManager.FINISHED);
     }
 }

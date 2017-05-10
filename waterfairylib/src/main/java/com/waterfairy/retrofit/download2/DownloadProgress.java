@@ -28,13 +28,13 @@ public class DownloadProgress implements OnDownloadingListener {
     @Override
     public void onDownloading(boolean done, long total, long current) {
         current = downloadInfo.getLastLen() + current;
-        if (onDownloadListener != null)
-            onDownloadListener.onDownloading(done, downloadInfo.getTotalLen(), current);
         downloadInfo.setCurrentLen(current);
         if (done) {
             downloadInfo.setState(DownloadInfo.FINISH);
             onDownloadSuccessListener.onDownloadSuccess(downloadInfo.getUrl());
         }
+        if (onDownloadListener != null)
+            onDownloadListener.onDownloading(done, downloadInfo.getTotalLen(), current);
     }
 
 }

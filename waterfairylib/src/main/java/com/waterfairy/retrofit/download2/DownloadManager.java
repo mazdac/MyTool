@@ -153,6 +153,16 @@ public class DownloadManager implements IDownloadManager {
         return handle(START_ALL);
     }
 
+    /**
+     * 下载完成
+     *
+     * @param url
+     */
+    @Override
+    public void onFinished(String url) {
+        controlHashMap.remove(url);
+    }
+
     public interface OnAllHandleListener {
         void onAllHandle(int code);
     }
