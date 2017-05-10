@@ -35,7 +35,7 @@ public class FileWriter {
         if (canSave(file)) {
             FileChannel channelOut = null;
             try {
-                RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rwd");
+                RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
                 channelOut = randomAccessFile.getChannel();
                 MappedByteBuffer mappedByteBuffer =
                         channelOut.map(FileChannel.MapMode.READ_WRITE, currentLen, totalLen - currentLen);

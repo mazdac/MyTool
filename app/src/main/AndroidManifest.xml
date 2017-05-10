@@ -137,7 +137,8 @@
         </activity>
         <activity android:name=".jni.JniActivity" />
         <activity android:name=".activity.ViewPagerActivity" />
-        <activity android:name=".rxjava.retrofit.down.DownActivity"></activity>
+        <activity android:name=".rxjava.retrofit.down.DownActivity" />
+        <activity android:name=".activity.PathActivity"></activity>
     </application>
 
 </manifest>

@@ -127,6 +127,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.down:
                 startActivity(new Intent(this, DownActivity.class));
+                break;    case R.id.path:
+                startActivity(new Intent(this, PathActivity.class));
                 break;
         }
     }

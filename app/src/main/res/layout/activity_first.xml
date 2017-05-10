@@ -229,13 +229,21 @@
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
                 android:text="viewpag" />
+
             <Button
                 android:id="@+id/down"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
-                android:text="down" />
+                android:text="down" />  <Button
+            android:id="@+id/path"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:text="path" />
         </LinearLayout>
+
+
     </ScrollView>
 
 </LinearLayout>
