@@ -1,4 +1,4 @@
-package com.waterfairy.retrofit.download2;
+package com.waterfairy.retrofit.download;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,10 +57,10 @@ public class DownloadManager implements IDownloadManager {
     public DownloadControl add(DownloadInfo downloadInfo) {
         if (downloadInfo == null) return null;
         DownloadControl downloadControl = get(downloadInfo.getUrl());
-        if (downloadControl == null || downloadInfo.getState() == DownloadInfo.STOP) {
+        if (downloadControl == null) {
             downloadControl = new DownloadControl(downloadInfo);
+            controlHashMap.put(downloadInfo.getUrl(), downloadControl);
         }
-        controlHashMap.put(downloadInfo.getUrl(), downloadControl);
         return downloadControl;
     }
 

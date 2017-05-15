@@ -1,13 +1,13 @@
 package com.waterfairy.retrofit.download;
 
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-
 /**
  * Created by shui on 2017/4/26.
  */
 
-public class DownloadInfo {
+public abstract class DownloadInfo {
+    public DownloadInfo(){
+
+    }
     public static final int START = 1;
     public static final int DOWNLOADING = 2;
     public static final int PAUSE = 3;
@@ -15,120 +15,50 @@ public class DownloadInfo {
     public static final int FINISH = 5;
     public static final int ERROR = 6;
 
-    public DownloadInfo(String basePath,String savePath,  String url, OnDownloadingListener onDownloadingListener) {
-        this.basePath=basePath;
-        this.savePath = savePath;
-        this.url = url;
-        this.onDownloadingListener = onDownloadingListener;
-    }
-
-    private String url;//下载路径
-    private String basePath;//基础路径
-    private String savePath;//保存路径
-    private long currentLen;//当前下载的位置
-    private long lastLen;//上次下载的位置
-    private long totalLen;//总长度
-    private Call<ResponseBody> call;
-    private OnDownloadingListener onDownloadingListener;
-    private int state;//下载状态
-    private DownloadService downloadService;
-    private DownloadControl control;
-    private int timeOut = 5;//
-
-    public DownloadControl getControl() {
-        return control;
-    }
-
-    public long getLastLen() {
-        return lastLen;
-    }
-
-    public void setLastLen(long lastLen) {
-        this.lastLen = lastLen;
-    }
-
-    public DownloadService getDownloadService() {
-        return downloadService;
-    }
-
-    public void setDownloadService(DownloadService downloadService) {
-        this.downloadService = downloadService;
-    }
-
-    public long getTotalLen() {
-        return totalLen;
-    }
-
-    public void setTotalLen(long totalLen) {
-        this.totalLen = totalLen;
-    }
-
-    public String getBasePath() {
-        return basePath;
-    }
-
-    public void setBasePath(String basePath) {
+    public DownloadInfo(String basePath, String savePath, String url) {
         this.basePath = basePath;
-    }
-
-    public Call<ResponseBody> getCall() {
-        return call;
-    }
-
-    public int getTimeOut() {
-        return timeOut;
-    }
-
-    public void setTimeOut(int timeOut) {
-        this.timeOut = timeOut;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
+        this.savePath = savePath;
         this.url = url;
     }
 
-    public String getSavePath() {
-        return savePath;
-    }
+    protected String url;//下载路径
+    protected String basePath;//基础路径
+    protected String savePath;//保存路径
+    protected long currentLen;//当前下载的位置
+    protected long lastLen;//上次下载的位置
+    protected long totalLen;//总长度
+    protected int timeOut = 5;//超时 s
+    protected int state;//下载状态
 
-    public void setSavePath(String savePath) {
-        this.savePath = savePath;
-    }
+    public abstract String getUrl();
 
-    public long getCurrentLen() {
-        return currentLen;
-    }
+    public abstract void setUrl(String url);
 
-    public void setCurrentLen(long currentLen) {
-        this.currentLen = currentLen;
-    }
+    public abstract String getBasePath();
 
+    public abstract void setBasePath(String basePath);
 
-    public OnDownloadingListener getOnDownloadingListener() {
-        return onDownloadingListener;
-    }
+    public abstract String getSavePath();
 
-    public void setOnDownloadingListener(OnDownloadingListener onDownloadingListener) {
-        this.onDownloadingListener = onDownloadingListener;
-    }
+    public abstract void setSavePath(String savePath);
 
-    public int getState() {
-        return state;
-    }
+    public abstract long getCurrentLen();
 
-    public void setState(int state) {
-        this.state = state;
-    }
+    public abstract void setCurrentLen(long currentLen);
 
-    public void setCall(retrofit2.Call<ResponseBody> call) {
-        this.call = call;
-    }
+    public abstract long getLastLen();
 
-    public void setControl(DownloadControl control) {
-        this.control = control;
-    }
+    public abstract void setLastLen(long lastLen);
+
+    public abstract long getTotalLen();
+
+    public abstract void setTotalLen(long totalLen);
+
+    public abstract int getTimeOut();
+
+    public abstract void setTimeOut(int timeOut);
+
+    public abstract int getState();
+
+    public abstract void setState(int state);
 }

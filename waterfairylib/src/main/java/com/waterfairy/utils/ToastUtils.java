@@ -12,7 +12,7 @@ import android.widget.Toast;
 public class ToastUtils {
     private static Toast mToast;
     private static Context mContext;
-    private static TextView mTextView;
+//    private static TextView mTextView;
 
     public static void initToast(Context context) {
         mContext = context;
