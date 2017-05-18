@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.waterfairy.tool.R;
 import com.waterfairy.tool.rxjava.img.activity.RXJavaViewImageActivity;
 import com.waterfairy.tool.rxjava.retrofit.BaseCallback;
-import com.waterfairy.tool.rxjava.retrofit.Http;
+import com.waterfairy.tool.rxjava.retrofit.RetrofitHttp;
 import com.waterfairy.tool.rxjava.retrofit.Response;
 import com.waterfairy.tool.rxjava.retrofit.UserBean;
 import com.waterfairy.tool.rxjava.rxjava_retrofit.RXHttpManger;
@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action1;
@@ -37,7 +36,7 @@ public class RXJavaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rxjava);
         initView();
         test();
-        Call<Response<UserBean>> login = Http.getInstance().login("", "");
+        Call<Response<UserBean>> login = RetrofitHttp.getInstance().login("", "");
         login.enqueue(new BaseCallback<UserBean>() {
             @Override
             public void onSuccess(UserBean userBean) {
@@ -120,8 +119,8 @@ public class RXJavaActivity extends AppCompatActivity {
     }
 
     private void getNetData() {
-//        Http.getInstance().update("health1","1.4");
-//        Http.getInstance().postMultipart();
+//        RetrofitHttp.getInstance().update("health1","1.4");
+//        RetrofitHttp.getInstance().postMultipart();
         RXHttpManger instance = RXHttpManger.getInstance();
         long id = 111;
         String name = "小樱";

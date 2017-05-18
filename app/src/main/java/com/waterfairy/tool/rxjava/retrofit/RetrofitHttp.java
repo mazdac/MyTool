@@ -14,12 +14,12 @@ import static com.waterfairy.tool.rxjava.HttpDef.BASE_URL;
  * Created by water_fairy on 2017/2/22.
  */
 
-public class Http {
+public class RetrofitHttp {
 
     private Retrofit retrofit;
     private  static  RetrofitService retrofitService;
 
-    private Http() {
+    private RetrofitHttp() {
         retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(BASE_URL)
@@ -30,5 +30,4 @@ public class Http {
     public static RetrofitService getInstance() {
         return retrofitService;
     }
-
 }

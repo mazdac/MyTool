@@ -280,7 +280,7 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
         Coordinate coordinate = mTextOutLines.get(i);
         Coordinate startCoordinate = mTextStarts.get(i);
 
-        int centerX = (coordinate.getX() + startCoordinate.getX()) / 2-mTextSize;
+        int centerX = (coordinate.getX() + startCoordinate.getX()) / 2 - mTextSize;
         if (coordinate.getxTag() >= 0) {
             canvas.drawText(content, coordinate.getX(), coordinate.getY() - 10, mTextPaint);
             canvas.drawText(mPercentRatios.get(i) + "%", centerX, coordinate.getY() + mTextSize, mTextPaint);//67%
@@ -406,8 +406,8 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
         Log.i(TAG, "surfaceDestroyed: ");
     }
 
-    class Coordinate {
-        public Coordinate() {
+    private class Coordinate {
+        Coordinate() {
 
         }
 
@@ -421,38 +421,38 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
         private int xTag;//圆心左侧-1,圆心右侧1,中心0
         private int yTag;//圆心左侧-1,圆心右侧1,中心0
 
-        public int getyTag() {
+        int getyTag() {
             return yTag;
         }
 
-        public Coordinate setyTag(int yTag) {
+        Coordinate setyTag(int yTag) {
             this.yTag = yTag;
             return this;
         }
 
-        public int getxTag() {
+        int getxTag() {
             return xTag;
         }
 
-        public Coordinate setxTag(int xTag) {
+        Coordinate setxTag(int xTag) {
             this.xTag = xTag;
             return this;
         }
 
-        public int getX() {
+        int getX() {
             return x;
         }
 
-        public Coordinate setX(int x) {
+        Coordinate setX(int x) {
             this.x = x;
             return this;
         }
 
-        public int getY() {
+        int getY() {
             return y;
         }
 
-        public Coordinate setY(int y) {
+        Coordinate setY(int y) {
             this.y = y;
             return this;
         }
