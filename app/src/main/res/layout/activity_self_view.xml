@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.waterfairy.tool.selfView.SelfViewActivity">
+    tools:context="com.waterfairy.tool.selfView.PieSelfViewActivity">
 
     <ScrollView
         android:layout_width="match_parent"

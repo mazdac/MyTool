@@ -1,6 +1,7 @@
 package com.waterfairy.tool.widget;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -11,6 +12,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import com.google.zxing.common.BitMatrix;
 
 import java.util.ArrayList;
 import java.util.Date;

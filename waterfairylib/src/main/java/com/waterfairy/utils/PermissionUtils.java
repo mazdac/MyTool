@@ -3,7 +3,9 @@ package com.waterfairy.utils;
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 
 /**
@@ -31,8 +33,15 @@ public class PermissionUtils {
      */
     public final static int REQUEST_RECORD = 4;
 
-
+    /**
+     * 申请权限
+     *
+     * @param activity Activity
+     * @param request  请求类型
+     */
+//    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public static void requestPermission(Activity activity, int request) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return;
         String[] permissions = null;
         String permission = null;
         switch (request) {
@@ -60,22 +69,29 @@ public class PermissionUtils {
     }
 
     /**
-     * @param activity
-     * @param permissions
-     * @param permission
-     * @param request
+     * @param activity    activity
+     * @param permissions 权限组
+     * @param permission  权限
+     * @param request     requestCode  Activity中 会返回权限申请状态(类似startActivityForResult)
      */
     public static void requestPermission(Activity activity,
                                          @NonNull String[] permissions,
                                          @NonNull String permission,
                                          int request) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return;
         int permissionCode = checkPermission(activity, permission);
         if (permissionCode != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(activity, permissions, request);
         }
-
     }
 
+    /**
+     * 检查权限
+     *
+     * @param activity   activity
+     * @param permission 某个权限
+     * @return {
+     */
     public static int checkPermission(Activity activity, String permission) {
         return ActivityCompat.checkSelfPermission(activity, permission);
     }

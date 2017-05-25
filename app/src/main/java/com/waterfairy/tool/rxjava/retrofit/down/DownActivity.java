@@ -174,7 +174,7 @@ public class DownActivity extends AppCompatActivity implements DownloadManager.O
     }
 
     public DownloadInfo getDownloadInfo(String downloadPath, String downloadUrl) {
-        return new DownloadInfo(
+        return new MyDownloadInfo(
                 "http://img04.tooopen.com/"
                 , downloadPath
                 , downloadUrl);

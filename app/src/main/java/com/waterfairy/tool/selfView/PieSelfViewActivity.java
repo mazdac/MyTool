@@ -22,7 +22,7 @@ import com.waterfairy.tool.widget.SelfView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SelfViewActivity extends AppCompatActivity implements View.OnTouchListener {
+public class PieSelfViewActivity extends AppCompatActivity implements View.OnTouchListener {
     private static final String TAG = "selfActivity";
     private SelfView selfView;
     private Canvas canvas;

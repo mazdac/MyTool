@@ -16,10 +16,12 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.media.ThumbnailUtils;
+import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
+import android.support.annotation.RequiresApi;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -132,6 +134,7 @@ public class ImageUtils {
      * @param recycle
      * @return
      */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static Bitmap blur(Context context, Bitmap source, float radius, boolean recycle) {
         Bitmap bitmap = createBitmap(source);
         //渲染脚本
@@ -561,7 +564,6 @@ public class ImageUtils {
     }
 
     /**
-     *
      * @param sentBitmap
      * @param radius
      * @param canReuseInBitmap
@@ -569,7 +571,7 @@ public class ImageUtils {
      * @throws OutOfMemoryError "内存不足,请降低高斯半径,获取图片像素"
      */
     public static Bitmap selfBlur1(Bitmap sentBitmap, int radius,
-                                   boolean canReuseInBitmap) throws OutOfMemoryError{
+                                   boolean canReuseInBitmap) throws OutOfMemoryError {
         Bitmap bitmap;
         if (canReuseInBitmap) {
             bitmap = sentBitmap;
@@ -602,7 +604,7 @@ public class ImageUtils {
         divsum *= divsum;//16
         int dv[] = null;
 //        try {
-            dv = new int[256 * divsum];
+        dv = new int[256 * divsum];
 //        } catch (OutOfMemoryError error) {
 //            throw new OutOfMemoryError("内存不足,请降低高斯半径,获取图片像素");
 //        }
@@ -778,7 +780,51 @@ public class ImageUtils {
         }
 
         bitmap.setPixels(pix, 0, w, 0, 0, w, h);
-
         return (bitmap);
+    }
+
+    public static final int STYLE_X = 1;
+    public static final int STYLE_Y = 2;
+    public static final int STYLE_XY = 3;
+
+    /**
+     * 平铺
+     *
+     * @param style  方式  x,y,xy
+     * @param length 宽度或长度
+     * @param bitmap 平铺的图片
+     * @param extra  xy时  (length 作为宽 extra作为高)
+     * @return
+     */
+    public static Bitmap repeat(int style, int length, Bitmap bitmap, int extra) {
+        if (STYLE_XY == style) {
+            Bitmap repeatX = repeat(STYLE_X, length, bitmap, 0);
+            return repeat(STYLE_Y, extra, repeatX, 0);
+        }
+        if (bitmap == null) return null;
+        int tempWidth = bitmap.getWidth();
+        int tempHeight = bitmap.getHeight();
+        int count = 1, countWidth = 1, countHeight = 1;
+        Bitmap bitmapTemp = null;
+        if (STYLE_X == style) {
+            countWidth = (length / tempWidth) + (length % tempHeight == 0 ? 0 : 1);
+            if (countWidth <= 0) countWidth = 1;
+            count = countWidth;
+            bitmapTemp = Bitmap.createBitmap(length, tempHeight, Bitmap.Config.ARGB_8888);
+        } else {
+            countHeight = (length / tempHeight) + (length % tempHeight == 0 ? 0 : 1);
+            if (countHeight <= 0) countHeight = 1;
+            count = countHeight;
+            bitmapTemp = Bitmap.createBitmap(tempWidth, length, Bitmap.Config.ARGB_8888);
+        }
+        Canvas canvas = new Canvas(bitmapTemp);
+        for (int i = 0; i < count; i++) {
+            if (STYLE_X == style) {
+                canvas.drawBitmap(bitmap, tempWidth * i, 0, null);
+            } else {
+                canvas.drawBitmap(bitmap, 0, tempHeight * i, null);
+            }
+        }
+        return bitmapTemp;
     }
 }

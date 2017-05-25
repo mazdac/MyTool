@@ -1,12 +1,9 @@
 package com.waterfairy.tool.activity;
 
 import android.content.Intent;
-import android.databinding.adapters.SearchViewBindingAdapter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import com.waterfairy.tool.R;
 import com.waterfairy.tool.aidltest.AidlActivity;
@@ -21,14 +18,13 @@ import com.waterfairy.tool.qr.QRListActivity;
 import com.waterfairy.tool.regular.RegularActivity;
 import com.waterfairy.tool.rxjava.RXJavaActivity;
 import com.waterfairy.tool.rxjava.retrofit.down.DownActivity;
-import com.waterfairy.tool.selfView.SelfViewActivity;
+import com.waterfairy.tool.selfView.PieSelfViewActivity;
+import com.waterfairy.tool.selfView.SelfViewMainActivity;
 import com.waterfairy.tool.thread.ThreadCommunicationActivity;
 import com.waterfairy.utils.PermissionUtils;
 import com.waterfairy.tool.video.bilibili.VideoActivity;
 import com.waterfairy.tool.wifisocket.WifiMangerActivity;
 import com.waterfairy.tool.xml.XMLActivity;
-
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -120,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, AidlActivity.class));
                 break;
             case R.id.self_view:
-                startActivity(new Intent(this, SelfViewActivity.class));
+                startActivity(new Intent(this, SelfViewMainActivity.class));
                 break;
             case R.id.viewpager:
                 startActivity(new Intent(this, ViewPagerActivity.class));

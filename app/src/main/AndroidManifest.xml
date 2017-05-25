@@ -129,7 +129,7 @@
 
         <activity android:name=".aidltest.AidlActivity" />
         <activity
-            android:name=".selfView.SelfViewActivity"
+            android:name=".selfView.PieSelfViewActivity"
             android:label="自定义view">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -138,7 +138,9 @@
         <activity android:name=".jni.JniActivity" />
         <activity android:name=".activity.ViewPagerActivity" />
         <activity android:name=".rxjava.retrofit.down.DownActivity" />
-        <activity android:name=".activity.PathActivity"></activity>
+        <activity android:name=".activity.PathActivity" />
+        <activity android:name=".selfView.HistogramActivity" />
+        <activity android:name=".selfView.SelfViewMainActivity" />
     </application>
 
 </manifest>
