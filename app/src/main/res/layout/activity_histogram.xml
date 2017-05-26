@@ -7,6 +7,6 @@
 
     <com.waterfairy.tool.widget.HistogramView
         android:id="@+id/histogram"
-        android:layout_width="400dp"
-        android:layout_height="400dp" />
+        android:layout_width="200dp"
+        android:layout_height="200dp" />
 </RelativeLayout>

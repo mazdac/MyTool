@@ -16,6 +16,11 @@ import android.view.SurfaceView;
 public abstract class BaseSurfaceView extends SurfaceView {
     protected SurfaceHolder mSurfaceHolder;
     protected int mWidth, mHeight;
+    private ValueAnimator valueAnimator;
+    private int currentTimes = 0;
+    private int times = 100;//绘画频率
+    private int sleepTime = 1;
+
 
     public BaseSurfaceView(Context context) {
         this(context, null);
@@ -36,20 +41,38 @@ public abstract class BaseSurfaceView extends SurfaceView {
 
     }
 
-    public void setClock() {
-        ValueAnimator valueAnimator = new ValueAnimator();
-        valueAnimator.setFloatValues(0f, 1f);
-        valueAnimator.setDuration(500);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                float value = (float) animation.getAnimatedValue();
+    private OnFloatChangeListener onFloatChangeListener;
+    protected boolean isDrawing;
 
+    protected boolean isDrawing() {
+        return isDrawing;
+    }
+
+    protected void setClock(OnFloatChangeListener onFloatChangeListener) {
+        this.onFloatChangeListener = onFloatChangeListener;
+
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                while (isDrawing) {
+                    float ratio = currentTimes / (float) times;//绘画过的比例
+                    BaseSurfaceView.this.onFloatChangeListener.onChange(ratio);
+                    try {
+                        Thread.sleep(sleepTime);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (currentTimes >= times) isDrawing = false;
+                    currentTimes++;
+                }
             }
-        });
+        }).start();
+
     }
 
     protected abstract void start();
+
 
     /**
      * 坐标
@@ -62,5 +85,9 @@ public abstract class BaseSurfaceView extends SurfaceView {
 
         public float x;
         public float y;
+    }
+
+    public interface OnFloatChangeListener {
+        void onChange(float value);
     }
 }

@@ -39,5 +39,8 @@ public class HistogramActivity extends AppCompatActivity {
         histogramEntities.add(histogramEntity7);
 
         histogramView.initData(histogramEntities, 4, 7);
+        float v = getApplicationContext().getResources().getDisplayMetrics().density * 10;
+        histogramView.setTextSize((int) v);
+        histogramView.setXYTitle( "时间","本数");
     }
 }
