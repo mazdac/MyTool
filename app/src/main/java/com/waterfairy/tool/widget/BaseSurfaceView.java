@@ -3,6 +3,7 @@ package com.waterfairy.tool.widget;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -50,7 +51,8 @@ public abstract class BaseSurfaceView extends SurfaceView {
 
     protected void setClock(OnFloatChangeListener onFloatChangeListener) {
         this.onFloatChangeListener = onFloatChangeListener;
-
+        if (isDrawing) return;
+        isDrawing = true;
         new Thread(new Runnable() {
 
             @Override
@@ -78,11 +80,23 @@ public abstract class BaseSurfaceView extends SurfaceView {
      * 坐标
      */
     public static class Coordinate {
+
         public Coordinate(float x, float y) {
             this.x = x;
             this.y = y;
+
         }
 
+        public Coordinate setExtra(float extra) {
+            this.extra = extra;
+            return this;
+        }
+
+        public float getExtra() {
+            return extra;
+        }
+
+        private float extra;
         public float x;
         public float y;
     }

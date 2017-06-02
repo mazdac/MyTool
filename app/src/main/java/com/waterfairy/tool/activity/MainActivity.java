@@ -14,6 +14,7 @@ import com.waterfairy.tool.dialog.DialogActivity;
 import com.waterfairy.tool.exception.ExceptionTestActivity;
 import com.waterfairy.tool.h5.H5Activity;
 import com.waterfairy.tool.image.ImageActivity;
+import com.waterfairy.tool.pageTurn.PageTurningActivity;
 import com.waterfairy.tool.qr.QRListActivity;
 import com.waterfairy.tool.regular.RegularActivity;
 import com.waterfairy.tool.rxjava.RXJavaActivity;
@@ -123,8 +124,12 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.down:
                 startActivity(new Intent(this, DownActivity.class));
-                break;    case R.id.path:
+                break;
+            case R.id.path:
                 startActivity(new Intent(this, PathActivity.class));
+                break;
+            case R.id.page_turn:
+                startActivity(new Intent(this, PageTurningActivity.class));
                 break;
         }
     }

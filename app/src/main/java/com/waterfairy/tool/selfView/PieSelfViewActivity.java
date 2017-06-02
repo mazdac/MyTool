@@ -120,14 +120,10 @@ public class PieSelfViewActivity extends AppCompatActivity implements View.OnTou
 //            imageView.setImageBitmap(bitmap);
 //            startX = x;
 //            startY = y;
-
-
             break;
-
         }
         return true;
     }
-
 
     private void draw(float x, float y) {
         Log.i("draw", "draw: " + x + "-" + y);
@@ -141,7 +137,5 @@ public class PieSelfViewActivity extends AppCompatActivity implements View.OnTou
         } else if (view.getId() == R.id.cir) {
             selfSurfaceView.setColor(Color.BLUE);
         }
-
     }
-
 }

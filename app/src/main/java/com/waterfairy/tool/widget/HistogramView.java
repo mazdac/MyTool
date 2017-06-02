@@ -1,9 +1,7 @@
 package com.waterfairy.tool.widget;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -14,10 +12,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import static android.R.id.list;
 
 /**
  * 柱状图
@@ -71,7 +66,7 @@ public class HistogramView extends BaseSurfaceView implements SurfaceHolder.Call
         linePaint = new Paint();
         linePaint.setAntiAlias(true);
         linePaint.setColor(Color.parseColor("#8cbe41"));
-        linePaint.setStrokeWidth(5);
+        linePaint.setStrokeWidth(3);
     }
 
     @Override
@@ -108,12 +103,13 @@ public class HistogramView extends BaseSurfaceView implements SurfaceHolder.Call
             HistogramBean histogramBean = histogramBeanList.get(i);
             Coordinate br = histogramBean.getBr();
             Coordinate ul = histogramBean.getUl();
-            RectF rectF = new RectF(ul.x, (ul.y - 2) * value, br.x, (br.y - 2) * value);
+            float extra = ul.getExtra();
+            RectF rectF = new RectF(ul.x, (ul.y - 2 + extra) - extra * value, br.x, (br.y - 2));
             canvas.drawRect(rectF, mMainPaint);
             if (i > 0) {
                 Coordinate center = histogramBean.getCenter();
                 Coordinate lastCenter = lastHistogramBean.getCenter();
-                canvas.drawLine(lastCenter.x, (lastCenter.y - 2) * value, center.x, (center.y - 2) * value, linePaint);
+                canvas.drawLine(lastCenter.x, (lastCenter.y - 2 + lastCenter.getExtra()) -  lastCenter.getExtra() * value, center.x, (center.y - 2 + extra) - extra * value, linePaint);
             }
             lastHistogramBean = histogramBean;
         }
@@ -126,7 +122,7 @@ public class HistogramView extends BaseSurfaceView implements SurfaceHolder.Call
     private void drawSteady() {
         Canvas canvas = mSurfaceHolder.lockCanvas();
         canvas.setBitmap(mBMBg);//设置背景图片
-        canvas.drawColor(Color.TRANSPARENT);//透明处理
+        canvas.drawColor(Color.WHITE);//透明处理
         //画y轴
         canvas.drawLine(mLeft, mTriangleWidth, mLeft, mHeight - mLeft, xPaint);
         //画x轴
@@ -173,11 +169,11 @@ public class HistogramView extends BaseSurfaceView implements SurfaceHolder.Call
     public void surfaceCreated(SurfaceHolder holder) {
         Log.i(TAG, "surfaceCreated: ");
         mBMBg = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
-        initDataAfterMesaure();
+        initDataAfterMeasure();
         draw();
     }
 
-    private void initDataAfterMesaure() {
+    private void initDataAfterMeasure() {
         //计算x,y坐标
         initXData(mXMinNum);
         initYData(mYMinNum);
@@ -211,9 +207,9 @@ public class HistogramView extends BaseSurfaceView implements SurfaceHolder.Call
                 y2 = y1;
                 y3 = mHeight - mLeft;
                 HistogramBean histogramBean = new HistogramBean(
-                        new Coordinate(x1, y1),
-                        new Coordinate(x2, y2),
-                        new Coordinate(x3, y3));
+                        new Coordinate(x1, y1).setExtra(yHeight),
+                        new Coordinate(x2, y2).setExtra(yHeight),
+                        new Coordinate(x3, y3).setExtra(yHeight));
                 histogramBeanList.add(histogramBean);
             }
         }

@@ -141,6 +141,11 @@
         <activity android:name=".activity.PathActivity" />
         <activity android:name=".selfView.HistogramActivity" />
         <activity android:name=".selfView.SelfViewMainActivity" />
+        <activity android:name=".pageTurn.PageTurningActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
