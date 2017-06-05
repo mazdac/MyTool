@@ -40,7 +40,9 @@ public class PageTurningActivity extends AppCompatActivity implements PageTurnin
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
-            pageTurningView.setCurrentItem(2);
+            if (msg.what == 0) {
+                pageTurningView.setCurrentItem(2);
+            }
             return false;
         }
     });
@@ -84,6 +86,11 @@ public class PageTurningActivity extends AppCompatActivity implements PageTurnin
     @Override
     public void onDoubleClickOnly() {
         ToastUtils.show("点击两次");
+    }
+
+    @Override
+    public void onTurning(int dir) {
+
     }
 
     public static class PageBean {

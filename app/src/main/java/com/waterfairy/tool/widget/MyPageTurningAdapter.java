@@ -31,4 +31,9 @@ public class MyPageTurningAdapter implements PageTurningAdapter {
     public boolean isFile(int position) {
         return list.get(position).isFile();
     }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
 }

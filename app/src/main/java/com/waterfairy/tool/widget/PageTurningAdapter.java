@@ -15,8 +15,21 @@ public interface PageTurningAdapter {
      */
     int getCount();
 
+    /**
+     * 获取img地址
+     *
+     * @param position
+     * @return
+     */
     String getImg(int position);
 
     boolean isFile(int position);
+
+    /**
+     * 选中当前pos
+     *
+     * @param position
+     */
+    void onPageSelected(int position);
 
 }

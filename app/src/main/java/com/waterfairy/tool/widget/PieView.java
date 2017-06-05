@@ -148,6 +148,22 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
         return coordinate;
     }
 
+
+    public void initData(List<PieViewDataBean> dataBeanList) {
+        if (dataBeanList != null) {
+            List<Float> ratios = new ArrayList<>();
+            List<Integer> colors = new ArrayList<>();
+            List<String> strings = new ArrayList<>();
+            for (int i = 0; i < dataBeanList.size(); i++) {
+                PieViewDataBean pieViewDataBean = dataBeanList.get(i);
+                ratios.add(pieViewDataBean.getRatio());
+                colors.add(pieViewDataBean.getColor());
+                strings.add(pieViewDataBean.getName());
+            }
+            initData(ratios, colors, strings);
+        }
+    }
+
     public void initData(List<Float> ratios, List<Integer> colors, List<String> strings) {
         mAngles = new ArrayList<>();
         mStartAngles = new ArrayList<>();
@@ -196,7 +212,9 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
         for (int i = 0; i < mCount; i++) {
             //计算对应角度
             float ratio = ratios.get(i) / total;
-            mPercentRatios.add((int) (ratio * 100));
+            int tempNum = (int) (ratio * 100);
+            if (tempNum == 0 && ratio != 0) tempNum = 1;
+            mPercentRatios.add(tempNum);
             float angle = 360 * (ratio);
             mAngles.add(angle);//获取角度
             //计算对应开始角度
@@ -472,4 +490,34 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
 
     }
 
+    public static class PieViewDataBean {
+        //      List<Float> ratios, List<Integer> colors, List<String> strings
+        private float ratio;
+        private int color;
+        private String name;
+
+        public float getRatio() {
+            return ratio;
+        }
+
+        public void setRatio(float ratio) {
+            this.ratio = ratio;
+        }
+
+        public int getColor() {
+            return color;
+        }
+
+        public void setColor(int color) {
+            this.color = color;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
 }

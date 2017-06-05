@@ -12,21 +12,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
+            <!--底部 左侧-->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="right|center_vertical">
+                android:gravity="end|center_vertical">
 
                 <ImageView
-
                     android:id="@+id/left_below"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ffffff" />
+                    android:scaleType="fitEnd" />
             </LinearLayout>
-
+            <!--底部 右侧-->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -34,10 +33,11 @@
                 android:gravity="center_vertical">
 
                 <ImageView
+
                     android:id="@+id/right_below"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#ffffff" />
+                    android:scaleType="fitStart" />
             </LinearLayout>
         </LinearLayout>
         <!--上部-->
@@ -45,33 +45,51 @@
             android:id="@+id/above_lin"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
+            <!--上部 左侧-->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="right"
                 android:layout_weight="1"
-                android:gravity="right|center_vertical">
+                android:gravity="end|center_vertical">
 
-                <ImageView
-                    android:id="@+id/left_above"
+                <LinearLayout
+                    android:id="@+id/left_lin_above"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#ffffff" />
-            </LinearLayout>
+                    android:layout_height="match_parent"
+                    android:background="#ffffff">
 
+                    <ImageView
+                        android:id="@+id/left_above"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end|center_vertical"
+                        android:scaleType="fitEnd" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <!--上部 右侧-->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="left|center_vertical">
+                android:gravity="start|center_vertical">
 
-                <ImageView
-
-                    android:id="@+id/right_above"
+                <LinearLayout
+                    android:id="@+id/right_lin_above"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#ffffff" />
+                    android:layout_height="match_parent"
+                    android:background="#ffffff">
+
+                    <ImageView
+                        android:id="@+id/right_above"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:scaleType="fitStart" />
+                </LinearLayout>
+
+
             </LinearLayout>
 
         </LinearLayout>
@@ -80,9 +98,10 @@
 
     <uk.co.senab.photoview.PhotoView
         android:id="@+id/photo_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
+        android:background="#ffffff"
         android:visibility="gone" />
 
     <RelativeLayout
