@@ -1,12 +1,13 @@
-package com.waterfairy.tool.widget;
+package com.waterfairy.tool.widget.pageTurn;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,8 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+
 import com.waterfairy.tool.R;
-import com.waterfairy.utils.ImageUtils;
 
 import uk.co.senab.photoview.PhotoView;
 
@@ -35,18 +36,19 @@ public class PageTurningView extends RelativeLayout implements View.OnTouchListe
     //ImageView 左上,左下   右上,右下
     private ImageView mLeftAbove, mLeftBelow, mRightAbove, mRightBelow;
     private LinearLayout mLLLeftAbove, mLLRightAbove;
-    private int mCurrentPage, mMaxCount;//当前position ,总数
+    private int mCurrentPosition, mMaxCount;//当前position ,总数
     private OnPageChangeListener onPageChangeListener;//监听
     private static final int TURN_LEFT = -1;//左滑,
     private static final int TURN_RIGHT = 1;//右滑
     private LinearLayout mAboveLin;//左上,右上两个ImageView
-    private PhotoView mPhotoView;
-    private RelativeLayout mTouchRel;
+    private RelativeLayout mTouchRel;//触摸层
     private boolean canClick = true;//翻页中不可点击
-    private int turnPageTime = 400;
-    private boolean isPhotoViewType = false;
+    private int turnPageTime = 500;
+    private boolean isPhotoViewType = false;//图片放大模式
+    private PhotoView mPhotoView;//图片查看view
     private int mWidth, mHeight;
-
+    private PageTurnCache pageTurnCache;//图片集合
+    private int mLastPosition;//记录上次位置
 
     private ScaleAnimation mAniLeftFromLeft, mAniLeftFromRight, mAniRightFromLeft, mAniRightFromRight;
     private int mErrorImg;
@@ -61,10 +63,9 @@ public class PageTurningView extends RelativeLayout implements View.OnTouchListe
         DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
         mWidth = displayMetrics.widthPixels;
         mHeight = displayMetrics.heightPixels;
+        pageTurnCache = new PageTurnCache(displayMetrics.densityDpi, mWidth, mHeight);
         initView();
         initAnim();
-
-
     }
 
     @Override
@@ -87,8 +88,6 @@ public class PageTurningView extends RelativeLayout implements View.OnTouchListe
             mAniRightFromLeft = getAnim(-1, 1, 0);
             mAniRightFromRight = getAnim(1, -1, 0);
         }
-
-
     }
 
     /**
@@ -142,60 +141,78 @@ public class PageTurningView extends RelativeLayout implements View.OnTouchListe
     public void setAdapter(PageTurningAdapter adapter) {
         mAdapter = adapter;
         mMaxCount = mAdapter.getCount();
-        mCurrentPage = 0;
+        mCurrentPosition = 0;
         initFirst();
     }
 
-    private Bitmap getBitmap(String path) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.RGB_565;
-        Bitmap bitmap = BitmapFactory.decodeFile(path, options);
-        bitmap = ImageUtils.matrix(bitmap, mWidth, mHeight, false);
-        if (bitmap == null) {
-            bitmap = BitmapFactory.decodeResource(mContext.getResources(), mErrorImg);
-            if (bitmap == null) {
-                bitmap = Bitmap.createBitmap(10, 10, Bitmap.Config.RGB_565);
-            }
-        } else {
+    /**
+     * 1.第一次 初始化
+     * 2.手动选择页码
+     */
+    private void initFirst() {
 
-        }
-        return bitmap;
+        // 指定缓存并显示第一页    指定缓存第二页
+        pageTurnCache.cacheBitmap(PageTurnCache.PAGE_CUR, mAdapter.getImg(mCurrentPosition), (Bitmap bitmap, Bitmap bitmap1, Bitmap bitmap2) -> {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mLeftBelow.setImageBitmap(bitmap1);
+                    mRightBelow.setImageBitmap(bitmap2);
+                    setAboveLinVisibility(false);
+                    mPhotoView.setImageBitmap(bitmap);
+                }
+            });
+
+        });
+        cache(PageTurnCache.PAGE_NEXT, mCurrentPosition + 1);
+        cache(PageTurnCache.PAGE_PRE, mCurrentPosition - 1);
+
     }
 
     /**
-     * 第一次 初始化
+     * 缓存图片
+     *
+     * @param tag  指定tag
+     * @param page 页码
      */
-    private void initFirst() {
-        setAboveLinVisibility(false);
-        Bitmap bitmap = getBitmap(mAdapter.getImg(mCurrentPage));
-        if (bitmap != null) {
-            int width = bitmap.getWidth();
-            int height = bitmap.getHeight();
-            Bitmap left = Bitmap.createBitmap(bitmap, 0, 0, width / 2, height);
-            Bitmap right = Bitmap.createBitmap(bitmap, width - width / 2, 0, width / 2, height);
-            mLeftBelow.setImageBitmap(left);
-            mRightBelow.setImageBitmap(right);
-            mPhotoView.setImageBitmap(bitmap);
-        }
+    private void cache(int tag, int page) {
+        if (page + 1 <= mMaxCount && page >= 0)
+            pageTurnCache.cacheBitmap(tag, mAdapter.getImg(page));
     }
 
     /**
      * 设置当前position
+     * 如果position 只是加1或减1 正常加载
+     * 如果position 跳级  重新去缓存图片
      *
      * @param position
      */
     public void setCurrentItem(int position) {
+        Log.i(TAG, "setCurrentItem: " + position);
         if (!canClick) return;
         if (isPhotoViewType) {
             setType(false);
         }
-        if (mCurrentPage == position) return;
-        if (mCurrentPage > position) {
-            mCurrentPage = position;
-            turnPage(TURN_RIGHT);
-        } else if (mCurrentPage < position) {
-            mCurrentPage = position;
-            turnPage(TURN_LEFT);
+        if (mCurrentPosition == position) return;
+        mLastPosition = mCurrentPosition;
+
+        if (mCurrentPosition > position) {
+            if (mLastPosition - position > 1) {
+                //跳级
+                mCurrentPosition = position;
+                initFirst();
+            } else {
+                turnPage(TURN_RIGHT);
+            }
+
+        } else if (mCurrentPosition < position) {
+            if (position - mLastPosition > 1) {
+                //跳级
+                mCurrentPosition = position;
+                initFirst();
+            } else {
+                turnPage(TURN_LEFT);
+            }
         }
     }
 
@@ -204,87 +221,75 @@ public class PageTurningView extends RelativeLayout implements View.OnTouchListe
 
 
     private boolean turnPage(int dir) {
+
         canClick = false;
-        if (mCurrentPage == mMaxCount - 1 && dir == TURN_LEFT) {
-            //最后一页
-            if (onPageChangeListener != null) {
-                onPageChangeListener.onToEdge(mCurrentPage);
-            }
-            canClick = true;
-            return false;
-        } else if (mCurrentPage == 0 && dir == TURN_RIGHT) {
-            //第一页
-            if (onPageChangeListener != null) {
-                onPageChangeListener.onToEdge(mCurrentPage);
-            }
-            canClick = true;
-            return false;
-        }
         //翻页动效
         if (onPageChangeListener != null) {
             onPageChangeListener.onTurning(dir);
         }
         initBeforeAnim(dir);
         setAnim(dir);
-
+        //预缓存
         if (dir == TURN_LEFT) {
-            mCurrentPage++;
+            mCurrentPosition++;
+            cacheNext();
         } else {
-            mCurrentPage--;
+            mCurrentPosition--;
+            cachePre();
         }
         if (onPageChangeListener != null) {
-            onPageChangeListener.onPageSelected(mCurrentPage);
-
+            onPageChangeListener.onPageSelected(mCurrentPosition);
         }
         if (mAdapter != null) {
-            mAdapter.onPageSelected(mCurrentPage);
+            mAdapter.onPageSelected(mCurrentPosition);
         }
-        mPhotoView.setImageBitmap(getBitmap(mAdapter.getImg(mCurrentPage)));
+        mPhotoView.setImageBitmap(pageTurnCache.getBitmap(PageTurnCache.PAGE_CUR));
         return true;
     }
 
     private void initBeforeAnim(int dir) {
         setAboveLinVisibility(true);
-        Bitmap previousBitmap = null, currentBitmap = null, afterBitmap = null;
-        Bitmap leftBelowBitmap = null, leftAboveBitmap = null, rightBelowBitmap = null, rightAboveBitmap = null;
-        //当前张
-        currentBitmap = getBitmap(mAdapter.getImg(mCurrentPage));
-        int currentWidth = currentBitmap.getWidth();
-        int currentHeight = currentBitmap.getHeight();
-
-        if (mCurrentPage != 0 && dir == TURN_RIGHT) {
+        if (mCurrentPosition != 0 && dir == TURN_RIGHT) {
             //前一张
-            previousBitmap = getBitmap(mAdapter.getImg(mCurrentPage - 1));
-            previousBitmap = ImageUtils.matrix(previousBitmap, mWidth, mHeight, true);
-            int preWidth = previousBitmap.getWidth();
-            int preHeight = previousBitmap.getHeight();
-            leftBelowBitmap = Bitmap.createBitmap(previousBitmap, 0, 0, preWidth / 2, preHeight);
-            leftAboveBitmap = Bitmap.createBitmap(previousBitmap, preWidth - preWidth / 2, 0, preWidth / 2, preHeight);
-            rightBelowBitmap = Bitmap.createBitmap(currentBitmap, currentWidth - currentWidth / 2, 0, currentWidth / 2, currentHeight);
-            rightAboveBitmap = Bitmap.createBitmap(currentBitmap, 0, 0, currentWidth / 2, currentHeight);
-            mLeftBelow.setImageBitmap(leftBelowBitmap);
-            mLeftAbove.setImageBitmap(rightAboveBitmap);
-            mRightBelow.setImageBitmap(rightBelowBitmap);
-            mRightAbove.setImageBitmap(leftAboveBitmap);
-
+            mLeftBelow.setImageBitmap(pageTurnCache.getBitmap(PageTurnCache.PAGE_PRE_1));
+            mLeftAbove.setImageBitmap(pageTurnCache.getBitmap(PageTurnCache.PAGE_CUR_1));
+            mRightAbove.setImageBitmap(pageTurnCache.getBitmap(PageTurnCache.PAGE_PRE_2));
+            mRightBelow.setImageBitmap(pageTurnCache.getBitmap(PageTurnCache.PAGE_CUR_2));
         }
-        if (mCurrentPage != mMaxCount - 1 && dir == TURN_LEFT) {
+        if (mCurrentPosition != mMaxCount - 1 && dir == TURN_LEFT) {
             //后一张
-            afterBitmap = getBitmap(mAdapter.getImg(mCurrentPage + 1));
-            afterBitmap = ImageUtils.matrix(afterBitmap, mWidth, mHeight, true);
-            int afterWidth = afterBitmap.getWidth();
-            int afterHeight = afterBitmap.getHeight();
-            rightBelowBitmap = Bitmap.createBitmap(afterBitmap, afterWidth - afterWidth / 2, 0, afterWidth / 2, afterHeight);
-            rightAboveBitmap = Bitmap.createBitmap(afterBitmap, 0, 0, afterWidth / 2, afterHeight);
-            leftBelowBitmap = Bitmap.createBitmap(currentBitmap, 0, 0, currentWidth / 2, currentHeight);
-            leftAboveBitmap = Bitmap.createBitmap(currentBitmap, currentWidth - currentWidth / 2, 0, currentWidth / 2, currentHeight);
-            mRightBelow.setImageBitmap(rightBelowBitmap);
-            mRightAbove.setImageBitmap(leftAboveBitmap);
-            mLeftBelow.setImageBitmap(leftBelowBitmap);
-            mLeftAbove.setImageBitmap(rightAboveBitmap);
+            mRightBelow.setImageBitmap(pageTurnCache.getBitmap(PageTurnCache.PAGE_NEXT_2));
+            mRightAbove.setImageBitmap(pageTurnCache.getBitmap(PageTurnCache.PAGE_CUR_2));
+            mLeftBelow.setImageBitmap(pageTurnCache.getBitmap(PageTurnCache.PAGE_CUR_1));
+            mLeftAbove.setImageBitmap(pageTurnCache.getBitmap(PageTurnCache.PAGE_NEXT_1));
         }
     }
 
+    private boolean hasPageTurnChangeEdge;
+
+    private void cacheNext() {
+        if (mCurrentPosition + 1 < mMaxCount) {
+            hasPageTurnChangeEdge = false;
+            pageTurnCache.cacheNext(mAdapter.getImg(mCurrentPosition + 1));
+        } else {
+            if (!hasPageTurnChangeEdge) {
+                hasPageTurnChangeEdge = true;
+                pageTurnCache.changeNext();
+            }
+        }
+    }
+
+    private void cachePre() {
+        if (mCurrentPosition - 1 >= 0) {
+            hasPageTurnChangeEdge = false;
+            pageTurnCache.cachePre(mAdapter.getImg(mCurrentPosition - 1));
+        } else {
+            if (!hasPageTurnChangeEdge) {
+                hasPageTurnChangeEdge = true;
+                pageTurnCache.changePre();
+            }
+        }
+    }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -298,15 +303,35 @@ public class PageTurningView extends RelativeLayout implements View.OnTouchListe
                 float difference = endX - mLastX;
                 if (difference > 30) {
                     //右滑
-                    return turnPage(TURN_RIGHT);
+                    return handleMove(TURN_RIGHT);
                 } else if (difference < -30) {
                     //左滑
-                    return turnPage(TURN_LEFT);
+                    return handleMove(TURN_LEFT);
                 }
                 onClick();
                 break;
         }
 
+        return true;
+    }
+
+    private boolean handleMove(int dir) {
+        if (mCurrentPosition == mMaxCount - 1 && dir == TURN_LEFT) {
+            //最后一页
+            if (onPageChangeListener != null) {
+                onPageChangeListener.onToEdge(mCurrentPosition);
+            }
+            canClick = true;
+            return false;
+        } else if (mCurrentPosition == 0 && dir == TURN_RIGHT) {
+            //第一页
+            if (onPageChangeListener != null) {
+                onPageChangeListener.onToEdge(mCurrentPosition);
+            }
+            canClick = true;
+            return false;
+        }
+        turnPage(dir);
         return true;
     }
 
@@ -353,13 +378,11 @@ public class PageTurningView extends RelativeLayout implements View.OnTouchListe
             mPhotoView.setVisibility(GONE);
             mTouchRel.setVisibility(VISIBLE);
         }
-
-
     }
 
 
     public void setAnim(int dir) {
-        handler.sendEmptyMessageDelayed(1, turnPageTime);
+        handler.sendEmptyMessageDelayed(1, turnPageTime * 2);//600ms之后点击
         if (dir == TURN_LEFT) {
             mLLLeftAbove.startAnimation(mAniLeftFromRight);
             mLLRightAbove.startAnimation(mAniRightFromRight);
@@ -394,6 +417,16 @@ public class PageTurningView extends RelativeLayout implements View.OnTouchListe
         return false;
     }
 
+    private Activity activity;
+
+    public void iniActivity(Activity activity) {
+        this.activity = activity;
+    }
+
+    public boolean isPhotoView() {
+        return isPhotoViewType;
+    }
+
     public interface OnPageChangeListener {
         void onPageSelected(int position);
 
@@ -407,7 +440,7 @@ public class PageTurningView extends RelativeLayout implements View.OnTouchListe
     }
 
     public int getCurrentPage() {
-        return mCurrentPage;
+        return mCurrentPosition;
     }
 
     public int getMaxCount() {

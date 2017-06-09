@@ -2,6 +2,7 @@ package com.waterfairy.tool.application;
 
 import android.app.Application;
 
+import com.waterfairy.tool.widget.pageTurn.PageImgCacheEntity;
 import com.waterfairy.utils.ToastUtils;
 
 /**
@@ -13,5 +14,6 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         ToastUtils.initToast(this);
+        PageImgCacheEntity.getInstance().initContext(this);
     }
 }

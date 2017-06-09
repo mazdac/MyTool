@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.waterfairy.tool.R;
 import com.waterfairy.tool.widget.MyPageTurningAdapter;
-import com.waterfairy.tool.widget.PageTurningView;
+import com.waterfairy.tool.widget.pageTurn.PageTurningView;
 import com.waterfairy.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -30,9 +30,10 @@ public class PageTurningActivity extends AppCompatActivity implements PageTurnin
         setContentView(R.layout.activity_page_turning);
         pageTurningView = (PageTurningView) findViewById(R.id.page_turn);
         mAdapter = new MyPageTurningAdapter(getList());
+        pageTurningView.iniActivity(this);
         pageTurningView.setErrorBitmap(R.mipmap.jj);
         pageTurningView.setAdapter(mAdapter);
-        handler.sendEmptyMessageDelayed(0, 3000);
+//        handler.sendEmptyMessageDelayed(0, 3000);
         pageTurningView.setOnPageChangeListener(this);
 
     }
@@ -49,14 +50,14 @@ public class PageTurningActivity extends AppCompatActivity implements PageTurnin
 
     private List<PageBean> getList() {
         mList = new ArrayList<>();
-        PageBean pageBean1 = new PageBean("/sdcard/test/p1.jpeg", true);
-        PageBean pageBean2 = new PageBean("/sdcard/test/p2.jpeg", true);
-        PageBean pageBean3 = new PageBean("/sdcard/test/p3.jpeg", true);
-        PageBean pageBean4 = new PageBean("/sdcard/test/p4.jpeg", true);
-        PageBean pageBean5 = new PageBean("/sdcard/test/p1.jpeg", true);
-        PageBean pageBean6 = new PageBean("/sdcard/test/p2.jpeg", true);
-        PageBean pageBean7 = new PageBean("/sdcard/test/p3.jpeg", true);
-        PageBean pageBean8 = new PageBean("/sdcard/test/p4.jpeg", true);
+        PageBean pageBean1 = new PageBean("/sdcard/test/p1.jpg", true);
+        PageBean pageBean2 = new PageBean("/sdcard/test/p2.jpg", true);
+        PageBean pageBean3 = new PageBean("/sdcard/test/p3.jpg", true);
+        PageBean pageBean4 = new PageBean("/sdcard/test/p4.jpg", true);
+        PageBean pageBean5 = new PageBean("/sdcard/test/p1.jpg", true);
+        PageBean pageBean6 = new PageBean("/sdcard/test/p2.jpg", true);
+        PageBean pageBean7 = new PageBean("/sdcard/test/p3.jpg", true);
+        PageBean pageBean8 = new PageBean("/sdcard/test/p4.jpg", true);
         mList.add(pageBean1);
         mList.add(pageBean2);
         mList.add(pageBean3);

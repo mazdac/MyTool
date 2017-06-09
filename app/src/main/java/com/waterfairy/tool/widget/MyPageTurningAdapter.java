@@ -1,6 +1,7 @@
 package com.waterfairy.tool.widget;
 
 import com.waterfairy.tool.pageTurn.PageTurningActivity;
+import com.waterfairy.tool.widget.pageTurn.PageTurningAdapter;
 
 import java.util.List;
 
