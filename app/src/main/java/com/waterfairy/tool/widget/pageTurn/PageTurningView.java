@@ -42,7 +42,7 @@ public class PageTurningView extends RelativeLayout implements View.OnTouchListe
     private LinearLayout mAboveLin;//左上,右上两个ImageView
     private RelativeLayout mTouchRel;//触摸层
     private boolean canClick = true;//翻页中不可点击
-    private int turnPageTime = 500;
+    private int turnPageTime = 400;
     private boolean isPhotoViewType = false;//图片放大模式
     private PhotoView mPhotoView;//图片查看view
     private int mWidth, mHeight;
@@ -381,7 +381,7 @@ public class PageTurningView extends RelativeLayout implements View.OnTouchListe
 
 
     public void setAnim(int dir) {
-        handler.sendEmptyMessageDelayed(1, turnPageTime * 2);//600ms之后点击
+        handler.sendEmptyMessageDelayed(1, turnPageTime);//600ms之后点击
         if (dir == TURN_LEFT) {
             mLLLeftAbove.startAnimation(mAniLeftFromRight);
             mLLRightAbove.startAnimation(mAniRightFromRight);
