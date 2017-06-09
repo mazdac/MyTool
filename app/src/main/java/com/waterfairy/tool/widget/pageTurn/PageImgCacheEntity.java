@@ -7,13 +7,9 @@ import android.util.Log;
 
 import com.waterfairy.utils.MD5Utils;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * Created by water_fairy on 2017/6/8.
@@ -67,7 +63,6 @@ public class PageImgCacheEntity {
         new Thread() {
             @Override
             public void run() {
-                Log.i(TAG, "saveBitmap 图片保存1: " + System.currentTimeMillis());
                 if (bitmap == null) return;
                 super.run();
                 String filePath = rootPath + MD5Utils.getMD5Code(path) + "-" + tag;
@@ -88,7 +83,6 @@ public class PageImgCacheEntity {
                         file.delete();
                     }
                 }
-                Log.i(TAG, "saveBitmap 图片保存2: " + System.currentTimeMillis());
             }
         }.start();
     }

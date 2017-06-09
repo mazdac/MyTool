@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-
 import com.waterfairy.tool.R;
 
 import uk.co.senab.photoview.PhotoView;
