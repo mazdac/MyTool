@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.view.View;
 
 
 /**
@@ -13,7 +12,7 @@ import android.view.View;
  * 995637517@qq.com
  */
 
-public class BaseSelfViewGroup extends View {
+public class BaseSelfViewGroup extends AppCompatImageView {
     private static final String TAG = "MenuImageView";
     protected int mWidth, mHeight;
     private ViewDrawObserver viewDrawObserver;

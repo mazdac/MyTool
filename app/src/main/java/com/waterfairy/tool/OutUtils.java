@@ -15,7 +15,7 @@ public class OutUtils {
     public static final String HEAD = "omron";
     public static final String WRITE = HEAD + "_xu_write";
     public static final String WRITE_B = HEAD + "_xu_write_b";
-    public static final String READ = HEAD + "_xu_read";
+    public static final String READ = HEAD + "_xu  _read";
 
     public static void printWrite(byte[] bytes) {
         printBYTE(WRITE, bytes);
