@@ -21,6 +21,12 @@ public interface PageTurningAdapter {
      */
     String getImg(int position);
 
+    /**
+     * 是否是文件
+     *
+     * @param position
+     * @return
+     */
     boolean isFile(int position);
 
     /**

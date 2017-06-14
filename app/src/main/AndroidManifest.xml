@@ -151,7 +151,7 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".kotlin.KotlinActivity"></activity>
+        <activity android:name=".selfView.SunViewActivity"></activity>
     </application>
 
 </manifest>

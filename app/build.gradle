@@ -46,13 +46,13 @@ android {
             debuggable true
             signingConfig signingConfigs.config
         }
-        bTest {
-            minifyEnabled false
-            resValue("string", "app_name", "工具箱(测试)")
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable true
-            signingConfig signingConfigs.config
-        }
+//        bTest {
+//            minifyEnabled false
+//            resValue("string", "app_name", "工具箱(测试)")
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            debuggable true
+//            signingConfig signingConfigs.config
+//        }
         debug {
             minifyEnabled false
             resValue("string", "app_name", "工具箱(调试)")
@@ -74,36 +74,36 @@ android {
             )
         }
     }
-    productFlavors {
-        prelease {
-            applicationId 'com.waterfairy.tool'
-            signingConfig signingConfigs.config
-        }
-        pdebug {
-            applicationId 'com.waterfairy.tool.debug'
-            signingConfig signingConfigs.config
-        }
-        ptest {
-            applicationId 'com.waterfairy.tool.test'
-            signingConfig signingConfigs.config
-        }
-    }
-    android.applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.outputFile = new File(output.outputFile.parent,
-                    output.outputFile.name.replace("app-prelease-release.apk", "com.waterfairy.tool-" + defaultConfig.versionName + ".apk")
-
-            )
-            output.outputFile = new File(output.outputFile.parent,
-                    output.outputFile.name.replace("app-ptest-bTest.apk", "com.waterfairy.tool.test-" + defaultConfig.versionName + ".apk")
-
-            )
-            output.outputFile = new File(output.outputFile.parent,
-                    output.outputFile.name.replace("app-pdebug-debug.apk", "com.waterfairy.tool.debug-" + defaultConfig.versionName + ".apk")
-
-            )
-        }
-    }
+//    productFlavors {
+//        prelease {
+//            applicationId 'com.waterfairy.tool'
+//            signingConfig signingConfigs.config
+//        }
+//        pdebug {
+//            applicationId 'com.waterfairy.tool.debug'
+//            signingConfig signingConfigs.config
+//        }
+//        ptest {
+//            applicationId 'com.waterfairy.tool.test'
+//            signingConfig signingConfigs.config
+//        }
+//    }
+//    android.applicationVariants.all { variant ->
+//        variant.outputs.each { output ->
+//            output.outputFile = new File(output.outputFile.parent,
+//                    output.outputFile.name.replace("app-prelease-release.apk", "com.waterfairy.tool-" + defaultConfig.versionName + ".apk")
+//
+//            )
+//            output.outputFile = new File(output.outputFile.parent,
+//                    output.outputFile.name.replace("app-ptest-bTest.apk", "com.waterfairy.tool.test-" + defaultConfig.versionName + ".apk")
+//
+//            )
+//            output.outputFile = new File(output.outputFile.parent,
+//                    output.outputFile.name.replace("app-pdebug-debug.apk", "com.waterfairy.tool.debug-" + defaultConfig.versionName + ".apk")
+//
+//            )
+//        }
+//    }
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
@@ -122,6 +122,7 @@ dependencies {
     //rxjava 与 retrofit 结合
     compile project(':waterfairylib')
     compile files('src/main/libs/alipaySdk-20170309.jar')
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.mobsandgeeks:android-saripaar:2.0.3'
@@ -138,7 +139,6 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     testCompile 'junit:junit:4.12'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 }
 repositories {
     mavenCentral()

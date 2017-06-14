@@ -28,6 +28,9 @@ public class SelfViewMainActivity extends AppCompatActivity {
             case R.id.histogram:
                 startActivity(new Intent(this, HistogramActivity.class));
                 break;
+            case R.id.sun_view:
+                startActivity(new Intent(this, SunViewActivity.class));
+                break;
         }
     }
 }

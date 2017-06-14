@@ -1,10 +1,11 @@
-package com.waterfairy.tool.widget.baseView;
+package com.waterfairy.myapplication;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
+import android.view.View;
 
 
 /**
@@ -12,7 +13,7 @@ import android.widget.ImageView;
  * 995637517@qq.com
  */
 
-public class BaseSelfViewGroup extends AppCompatImageView {
+public class BaseSelfViewGroup extends View {
     private static final String TAG = "MenuImageView";
     protected int mWidth, mHeight;
     private ViewDrawObserver viewDrawObserver;
@@ -21,6 +22,7 @@ public class BaseSelfViewGroup extends AppCompatImageView {
     private int times = 100;//绘画频率
     private int sleepTime = 1;
     protected float mRatio = 1;
+    private boolean canDraw;
 
     public BaseSelfViewGroup(Context context) {
         this(context, null);
@@ -81,8 +83,9 @@ public class BaseSelfViewGroup extends AppCompatImageView {
                 dataState = state;
             }
             if (viewState && dataState) {
+                canDraw=true;
                 beforeDraw();
-                startDraw();
+                invalidate();
             }
         }
     }
@@ -104,8 +107,8 @@ public class BaseSelfViewGroup extends AppCompatImageView {
             mRatio = currentTimes / (float) times;//绘画过的比例
             if (onFloatChangeListener != null) {
                 onFloatChangeListener.onChange(mRatio);
-                startDraw();
             }
+            postInvalidate();
             try {
                 Thread.sleep(sleepTime);
             } catch (InterruptedException e) {
@@ -116,12 +119,18 @@ public class BaseSelfViewGroup extends AppCompatImageView {
         }
     }
 
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        if (canDraw) startDraw(canvas);
+    }
+
     protected void setClock() {
         setClock(null);
     }
 
-    private void startDraw() {
-        postInvalidate();
+    protected void startDraw(Canvas canvas) {
+
     }
 
     protected void beforeDraw() {
