@@ -1,7 +1,6 @@
 package com.waterfairy.tool.widget;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,10 +9,10 @@ import android.graphics.RectF;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
-import com.google.zxing.common.BitMatrix;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,7 +28,7 @@ import java.util.List;
  * 差值: 31,387 31秒  25秒   多出6秒
  */
 
-public class PieView extends SurfaceView implements SurfaceHolder.Callback {
+public class PieView extends SurfaceView implements SurfaceHolder.Callback, View.OnTouchListener {
     private final String TAG = "pieView";
     private List<Integer> mPercentRatios;//比例
     private List<Integer> mColors;//颜色
@@ -58,16 +57,28 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
     private List<Coordinate> mTextInLines;//文字说明 坐标结束点
     private List<Coordinate> mTextStarts;//文字说明起点
     private int mCenterX, mCenterY;
-    private int mTextSize = 40;
-    private Paint mTextPaint;
+    private int mTextSize;
+    private int mTextColor;
+    private Paint mTextPaint, mPercentPaint;
     private Paint mLinePaint;
+    private List<Float> mRatios;
+    private int mBgColor;
+    private boolean mAutoDraw = false;//初始化后并且ViewHolder创建 画图
+    private boolean mGoOnDraw;//如果已经初化,holder 没有创建, 等待 创建后继续绘画
+    private boolean mIsHolderCreate;//holder 是否创建
+    private boolean mIsDataInit;//没有数据不能绘制
+    private boolean mIsHolderDestroy;
 
 
     public PieView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mBgColor = Color.WHITE;
+        mTextSize = (int) (context.getResources().getDisplayMetrics().density * 10);
+        mTextColor = Color.GRAY;
         surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);
-        surfaceHolder.setFormat(PixelFormat.TRANSPARENT);
+        surfaceHolder.setFormat(PixelFormat.RGB_565);
+        setOnTouchListener(this);
     }
 
     public PieView(Context context) {
@@ -88,15 +99,16 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
         mWidth = MeasureSpec.getSize(widthMeasureSpec);
-        mHeight = MeasureSpec.getSize(heightMeasureSpec);
+        mHeight = MeasureSpec.getSize(widthMeasureSpec);
+        super.onMeasure(widthMeasureSpec, widthMeasureSpec);
         mCenterX = mWidth / 2;
         mCenterY = mHeight / 2;
         Log.i(TAG, "onMeasure: width:" + mWidth + " -height" + mHeight);
         int tempRadius = Math.min(mCenterX, mCenterY);
-        mRadius = (int) (tempRadius * 4F / 7);
-        padding = (int) (tempRadius * 1F / 7);
+        mRadius = (int) (tempRadius * 7F / 14);
+        padding = (int) (tempRadius * 2F / 14);
         if (mCircleRectF == null) {
             mCircleRectF = new RectF(
                     mCenterX - mRadius,
@@ -104,7 +116,7 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
                     mCenterX + mRadius,
                     mCenterY + mRadius);
         }
-        initStrokePoint();
+
 
     }
 
@@ -172,9 +184,12 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
         mStrings = strings;
         mColors = colors;
         mCount = ratios.size();
+        mRatios = ratios;
         initPaint();
         calcCircleData(ratios, colors);
+        initStrokePoint();
         //计算文本所需数据
+        mIsDataInit = true;
     }
 
     /**
@@ -183,9 +198,13 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
     private void initPaint() {
         //文本
         mTextPaint = new Paint();
-        mTextPaint.setColor(Color.GRAY);
+        mTextPaint.setColor(mTextColor);
         mTextPaint.setTextSize(mTextSize);
-        mTextPaint.setAntiAlias(true);
+        mTextPaint.setAntiAlias(true);     //文本
+        mPercentPaint = new Paint();
+        mPercentPaint.setColor(mTextColor);
+        mPercentPaint.setTextSize(mTextSize * 4 / 5);
+        mPercentPaint.setAntiAlias(true);
         //线
         mLinePaint = new Paint();
         mLinePaint.setColor(Color.GRAY);
@@ -252,7 +271,15 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void startDraw() {
-        if (isDrawing) return;
+        if (isDrawing || !mIsDataInit) return;
+        if (!mIsHolderCreate) {
+            mGoOnDraw = true;
+            Log.i(TAG, "startDraw: viewHolder 没有创建 ");
+            return;
+        } else {
+            mGoOnDraw = false;
+            Log.i(TAG, "startDraw: viewHolder 已经创建 ");
+        }
         isDrawing = true;
         drawThread = new Thread(new Runnable() {
             int currentTimes = 0;
@@ -289,6 +316,7 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
 
     private void drawInfo() {
         Canvas canvas = surfaceHolder.lockCanvas();
+        if (canvas == null) return;
         for (int i = 0; i < mCount; i++) {
             drawLines(canvas, i);
             drawTexts(canvas, i);
@@ -297,24 +325,26 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     private void drawTexts(Canvas canvas, int i) {
+        int num = (int) Float.parseFloat(mRatios.get(i) + "");
+        String temp = "(" + num + "本)";
         String content = mStrings.get(i);
         Coordinate coordinate = mTextOutLines.get(i);
         Coordinate startCoordinate = mTextStarts.get(i);
-
-        int centerX = (coordinate.getX() + startCoordinate.getX()) / 2 - mTextSize;
+        int dex = mTextSize / 4;//调整差距
+        int centerX = (coordinate.getX() + startCoordinate.getX()) / 2 - 2 * mTextSize;
         if (coordinate.getxTag() >= 0) {
-            canvas.drawText(content, coordinate.getX(), coordinate.getY() - 10, mTextPaint);
-            canvas.drawText(mPercentRatios.get(i) + "%", centerX, coordinate.getY() + mTextSize, mTextPaint);//67%
+            //右侧
+            canvas.drawText(content, coordinate.getX() - mTextSize, coordinate.getY() - dex, mTextPaint);
+            canvas.drawText(mPercentRatios.get(i) + "%" + temp, centerX - mTextSize, coordinate.getY() + mTextSize, mPercentPaint);//67%
         } else {
-
             if (startCoordinate.getyTag() > 0) {
-                //左下 (文字写于线下)
-                canvas.drawText(content, startCoordinate.getX() + 10, startCoordinate.getY() + mTextSize, mTextPaint);
-                canvas.drawText(mPercentRatios.get(i) + "%", centerX, startCoordinate.getY() - 10, mTextPaint);//67%
+                //左下
+                canvas.drawText(content, startCoordinate.getX() + mTextSize, startCoordinate.getY() - dex, mTextPaint);
+                canvas.drawText(mPercentRatios.get(i) + "%" + temp, centerX + mTextSize, startCoordinate.getY() + mTextSize, mPercentPaint);//67%
             } else {
                 //左上
-                canvas.drawText(content, startCoordinate.getX() + 10, startCoordinate.getY() - 10, mTextPaint);
-                canvas.drawText(mPercentRatios.get(i) + "%", centerX, startCoordinate.getY() + mTextSize, mTextPaint);//67%
+                canvas.drawText(content, startCoordinate.getX() + mTextSize, startCoordinate.getY() - dex, mTextPaint);
+                canvas.drawText(mPercentRatios.get(i) + "%" + temp, centerX + mTextSize, startCoordinate.getY() + mTextSize, mPercentPaint);//67%
             }
         }
     }
@@ -331,10 +361,10 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
         Coordinate textStartPoint = mTextStarts.get(i);
         int outX = outLinePoint.getX();
         int outY = outLinePoint.getY();
-        canvas.drawLine(outX, outY, inLinePoint.getX(), inLinePoint.getY(), mLinePaint);//线1
-        int textStartX = textStartPoint.getX();
+        canvas.drawLine(outX, outY, inLinePoint.getX(), inLinePoint.getY(), mLinePaint);//线1(斜线)
+//        int textStartX = textStartPoint.getX();
         int textStartY = textStartPoint.getY();
-        canvas.drawLine(textStartX, textStartY, outX, outY, mLinePaint);//线2
+        canvas.drawLine(textStartPoint.getxTag() > 0 ? outX + mTextSize : outX - mTextSize, textStartY, outX, outY, mLinePaint);//线2(直线)
     }
 
     /**
@@ -358,7 +388,7 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
     private void drawBg() {
         Canvas canvas = surfaceHolder.lockCanvas();
         if (canvas == null) return;
-        canvas.drawColor(Color.WHITE);
+        canvas.drawColor(mBgColor);
         if (drawCircle) {
             drawCircle(canvas);
         }
@@ -392,6 +422,10 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
         canvas.drawCircle(mCenterX, mCenterX, mRadius, paint);
     }
 
+    public void setAutoDraw(boolean autoDraw) {
+        this.mAutoDraw = autoDraw;
+    }
+
     public void reStart() {
         startDraw();
     }
@@ -399,7 +433,7 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
     private void startDraw(float ratio) {
         Canvas canvas = surfaceHolder.lockCanvas();
         if (canvas == null) return;
-        canvas.drawColor(Color.WHITE);
+        canvas.drawColor(mBgColor);
         if (drawCircle) drawCircle(canvas);
         float sin = (float) Math.sin(Math.toRadians(ratio * 90));
         for (int i = 0; i < mCount; i++) {
@@ -413,8 +447,24 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        drawBg();
+        Log.i(TAG, "startDraw: viewHolder 创建 ");
         Log.i(TAG, "surfaceCreated: ");
-        startDraw();
+        mIsHolderCreate = true;
+        if (mIsHolderDestroy) {
+            mIsHolderDestroy = false;
+            startDraw();
+            return;
+        }
+        if (mGoOnDraw) {
+            Log.i(TAG, "startDraw: viewHolder 继续绘制 ");
+            startDraw();
+            return;
+        }
+        if (mAutoDraw) {
+            Log.i(TAG, "startDraw: viewHolder 自动绘制 ");
+            startDraw();
+        }
     }
 
     @Override
@@ -424,8 +474,25 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
+        mIsHolderCreate = false;
+        mIsHolderDestroy = true;
         Log.i(TAG, "surfaceDestroyed: ");
     }
+
+    public void setTextSize(int textSize) {
+        mTextSize = textSize;
+
+    }
+
+    public void setTextColor(int textColor) {
+        mTextColor = textColor;
+
+    }
+
+    public void setBgColor(String color) {
+        mBgColor = Color.parseColor(color);
+    }
+
 
     private class Coordinate {
         Coordinate() {
@@ -477,7 +544,58 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
             this.y = y;
             return this;
         }
+    }
 
+    public void setBgColor(int bgColor) {
+        this.mBgColor = bgColor;
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if (isDrawing || !mIsDataInit || onPositionSelectedListener == null) return false;
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            calcTouchPosition(event.getX(), event.getY());
+        }
+        return true;
+    }
+
+    private void calcTouchPosition(float x, float y) {
+//        mCenterX,mCenterY,mRadius;
+        float radius = (float) Math.sqrt(Math.pow(y - mCenterY, 2) + Math.pow(x - mCenterX, 2));
+        if (radius > mRadius) return;
+        double v = Math.toDegrees(Math.asin((y - mCenterY) / radius));
+        double degree = 0;
+        if (x > mCenterX) {
+            //右侧
+            if (v > 0) {
+                //下
+                degree = v;
+            } else {
+                //上
+                degree = 360 + v;
+            }
+        } else {
+            //左侧
+            if (v > 0) {
+                //下
+                degree = 180 - v;
+            } else {
+                //上
+                degree = 180 + Math.abs(v);
+            }
+        }
+        int positionSel = 0;
+        for (int i = 0; i < mStartAngles.size(); i++) {
+            Float aFloat = mStartAngles.get(i);
+            if (degree < aFloat) {
+                positionSel = i - 1;
+                break;
+            }
+        }
+        if (mStartAngles.size() > 0) {
+            positionSel = mStartAngles.size() - 1;
+        }
+        if (onPositionSelectedListener != null) onPositionSelectedListener.onPieSelect(positionSel);
 
     }
 
@@ -487,7 +605,6 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
         } else {
             return content.getBytes().length * (mTextSize / 3);
         }
-
     }
 
     public static class PieViewDataBean {
@@ -519,5 +636,15 @@ public class PieView extends SurfaceView implements SurfaceHolder.Callback {
         public void setName(String name) {
             this.name = name;
         }
+    }
+
+    private OnPositionSelectedListener onPositionSelectedListener;
+
+    public void setOnSelectedListener(OnPositionSelectedListener listener) {
+        this.onPositionSelectedListener = listener;
+    }
+
+   public interface OnPositionSelectedListener {
+        void onPieSelect(int positionSel);
     }
 }

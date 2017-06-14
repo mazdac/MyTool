@@ -11,6 +11,10 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+import com.waterfairy.tool.widget.baseView.BaseSurfaceView;
+import com.waterfairy.tool.widget.baseView.Coordinate;
+import com.waterfairy.tool.widget.baseView.OnFloatChangeListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +24,9 @@ import java.util.List;
  * 995637517@qq.com
  */
 
-public class HistogramView extends BaseSurfaceView implements SurfaceHolder.Callback {
+public class HistogramView extends BaseSurfaceView {
     private static final String TAG = "HistogramView";
-    private int mLeft = 3 * 14;//(3个字节长度)左边距,下边距
+    private int mLeft = 2 * 14;//(2个字节长度)左边距,下边距
     private float mXPerWidth, mXHisWidth;//myhiswidth  占有3分 Xper
     private int mTriangleWidth = 10;//箭头宽度
     private int maxHeight;//最高
@@ -35,7 +39,9 @@ public class HistogramView extends BaseSurfaceView implements SurfaceHolder.Call
     private Paint mMainPaint, xPaint, linePaint;
     private Bitmap mBMBg;
     private int mMaxValue;
-    protected String mXTitle, mYTitle;
+    protected String mXTitle = "", mYTitle = "";
+    private int mTextSize;
+
 //    private List<XLineCoordinate> xNames;//x轴坐标显示
 
 
@@ -45,7 +51,7 @@ public class HistogramView extends BaseSurfaceView implements SurfaceHolder.Call
 
     public HistogramView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        mSurfaceHolder.addCallback(this);
+        mBgColor = Color.WHITE;
         float density = context.getResources().getDisplayMetrics().density;
         mLeft = (int) (mLeft * density);
         mTriangleWidth = (int) (mTriangleWidth * density);
@@ -71,14 +77,23 @@ public class HistogramView extends BaseSurfaceView implements SurfaceHolder.Call
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        Log.i(TAG, "onMeasure: " + mWidth + "--" + mHeight);
+        int measureSpec = heightMeasureSpec;
+        if (MeasureSpec.getSize(widthMeasureSpec) < MeasureSpec.getSize(heightMeasureSpec)) {
+            measureSpec = widthMeasureSpec;
+        }
+        super.onMeasure(measureSpec, measureSpec);
+
+    }
+
+
+    @Override
+    protected void startDraw() {
+        draw();
     }
 
     @Override
-    protected void start() {
-
-
+    protected void beforeDraw() {
+        initDataAfterMeasure();
     }
 
 
@@ -97,9 +112,10 @@ public class HistogramView extends BaseSurfaceView implements SurfaceHolder.Call
 
     private void drawHistogram(float value) {
         Canvas canvas = mSurfaceHolder.lockCanvas();
+        if (canvas == null) return;
         canvas.drawBitmap(mBMBg, 0, 0, null);
         HistogramBean lastHistogramBean = null;
-        for (int i = 0; i < histogramBeanList.size(); i++) {
+        for (int i = 0; histogramBeanList != null && i < histogramBeanList.size(); i++) {
             HistogramBean histogramBean = histogramBeanList.get(i);
             Coordinate br = histogramBean.getBr();
             Coordinate ul = histogramBean.getUl();
@@ -109,7 +125,7 @@ public class HistogramView extends BaseSurfaceView implements SurfaceHolder.Call
             if (i > 0) {
                 Coordinate center = histogramBean.getCenter();
                 Coordinate lastCenter = lastHistogramBean.getCenter();
-                canvas.drawLine(lastCenter.x, (lastCenter.y - 2 + lastCenter.getExtra()) -  lastCenter.getExtra() * value, center.x, (center.y - 2 + extra) - extra * value, linePaint);
+                canvas.drawLine(lastCenter.x, (lastCenter.y - 2 + lastCenter.getExtra()) - lastCenter.getExtra() * value, center.x, (center.y - 2 + extra) - extra * value, linePaint);
             }
             lastHistogramBean = histogramBean;
         }
@@ -121,8 +137,9 @@ public class HistogramView extends BaseSurfaceView implements SurfaceHolder.Call
      */
     private void drawSteady() {
         Canvas canvas = mSurfaceHolder.lockCanvas();
+        if (canvas == null) return;
         canvas.setBitmap(mBMBg);//设置背景图片
-        canvas.drawColor(Color.WHITE);//透明处理
+        canvas.drawColor(mBgColor);//透明处理
         //画y轴
         canvas.drawLine(mLeft, mTriangleWidth, mLeft, mHeight - mLeft, xPaint);
         //画x轴
@@ -150,27 +167,27 @@ public class HistogramView extends BaseSurfaceView implements SurfaceHolder.Call
 ////            canvas.drawText(xLineCoordinate.getValue()+"",);
 //        }
         //y坐标
-        xPaint.setTextSize(mLeft / 4);
-        canvas.drawText(mMaxValue + "", mLeft / 3, mHeight - mLeft - mMaxValue * mYPerHeight, xPaint);
-        canvas.drawText(mMaxValue / 2 + "", mLeft / 3, mHeight - mLeft - mMaxValue * mYPerHeight / 2, xPaint);
-        canvas.drawText(0 + "", mLeft / 3, mHeight - mLeft, xPaint);
-        canvas.drawText(mYTitle, mLeft / 3, mLeft / 3, xPaint);
+        canvas.drawText(mMaxValue + "", mLeft / 4, mHeight - mLeft - mMaxValue * mYPerHeight, xPaint);
+        canvas.drawText(mMaxValue / 2f + "", mLeft / 4, mHeight - mLeft - mMaxValue * mYPerHeight / 2, xPaint);
+        canvas.drawText(0 + "", mLeft / 4, mHeight - mLeft, xPaint);
+        canvas.drawText(mYTitle, 0, mLeft * 5 / 6, xPaint);
         //x坐标
-        for (int i = 0; i < mDataList.size(); i++) {
+        xPaint.setTextSize(mTextSize * 7 / 10);
+        for (int i = 0; mDataList != null && i < mDataList.size(); i++) {
             HistogramEntity histogramEntity = mDataList.get(i);
-            canvas.drawText(histogramEntity.getxName(), histogramBeanList.get(i).ul.x, mHeight - mLeft + mTriangleWidth, xPaint);
+            canvas.drawText(histogramEntity.getxName(), histogramBeanList.get(i).ul.x, mHeight - mLeft * 4 / 5 + mTriangleWidth, xPaint);
         }
+        xPaint.setTextSize(mTextSize);
 //        canvas.drawText(mXTitle, mWidth - mXTitle.getBytes().length * mLeft / (float) 6 * -mLeft / (float) 3, mHeight - mLeft + mTriangleWidth, xPaint);
-        canvas.drawText(mXTitle, mWidth - mXHisWidth - mTriangleWidth, mHeight - (2 * mLeft / 3), xPaint);
+        canvas.drawText(mXTitle, mWidth - mXHisWidth - mTriangleWidth, mHeight - (mLeft / 3), xPaint);
         mSurfaceHolder.unlockCanvasAndPost(canvas);
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Log.i(TAG, "surfaceCreated: ");
+        super.surfaceCreated(holder);
         mBMBg = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.ARGB_8888);
-        initDataAfterMeasure();
-        draw();
     }
 
     private void initDataAfterMeasure() {
@@ -185,10 +202,13 @@ public class HistogramView extends BaseSurfaceView implements SurfaceHolder.Call
         mDataList = list;
         mXMinNum = minXNum;
         mYMinNum = minYNum;
+        super.onInitDataOk();
     }
 
     public void setTextSize(int textSize) {
-        mLeft = 3 * textSize;
+        xPaint.setTextSize(textSize);
+        mLeft = 2 * textSize;
+        mTextSize = textSize;
         mTriangleWidth = (int) (textSize * 5 / (float) 7);
     }
 
@@ -247,7 +267,7 @@ public class HistogramView extends BaseSurfaceView implements SurfaceHolder.Call
             mMaxValue = 1;
         }
         //每份value值得高度
-        mYPerHeight = (mHeight - mLeft * 3 / 2 - mTriangleWidth) / (float) mMaxValue;
+        mYPerHeight = (mHeight - mLeft * 2 - mTriangleWidth) / (float) mMaxValue;
         //y轴间隔高度
         mYHisHeight = mYPerHeight / (float) (minYNum - 1);
         //x坐标
@@ -260,14 +280,13 @@ public class HistogramView extends BaseSurfaceView implements SurfaceHolder.Call
 
     }
 
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        Log.i(TAG, "surfaceChanged: ");
+
+    public void setBgColor(int bgColor) {
+        this.mBgColor = bgColor;
     }
 
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        Log.i(TAG, "surfaceDestroyed: ");
+    public void setBgColor(String color) {
+        mBgColor = Color.parseColor(color);
     }
 
     public class HistogramBean {

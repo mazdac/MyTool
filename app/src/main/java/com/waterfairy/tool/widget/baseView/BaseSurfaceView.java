@@ -1,26 +1,26 @@
-package com.waterfairy.tool.widget;
+package com.waterfairy.tool.widget.baseView;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
-import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
 
 /**
  * Created by water_fairy on 2017/5/25.
  * 995637517@qq.com
  */
 
-public abstract class BaseSurfaceView extends SurfaceView {
+public abstract class BaseSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     protected SurfaceHolder mSurfaceHolder;
     protected int mWidth, mHeight;
-    private ValueAnimator valueAnimator;
     private int currentTimes = 0;
     private int times = 100;//绘画频率
     private int sleepTime = 1;
+    protected ViewDrawObserver viewDrawObserver;
+    protected int mBgColor;
 
 
     public BaseSurfaceView(Context context) {
@@ -29,9 +29,12 @@ public abstract class BaseSurfaceView extends SurfaceView {
 
     public BaseSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mBgColor = Color.WHITE;
         mSurfaceHolder = getHolder();
         mSurfaceHolder.setFormat(PixelFormat.TRANSPARENT);//透明
         setZOrderOnTop(true);//置顶
+        viewDrawObserver = new ViewDrawObserver();
+        mSurfaceHolder.addCallback(this);
     }
 
     @Override
@@ -53,11 +56,13 @@ public abstract class BaseSurfaceView extends SurfaceView {
         this.onFloatChangeListener = onFloatChangeListener;
         if (isDrawing) return;
         isDrawing = true;
+        currentTimes = 0;
+
         new Thread(new Runnable() {
 
             @Override
             public void run() {
-                while (isDrawing) {
+                while (isDrawing ) {
                     float ratio = currentTimes / (float) times;//绘画过的比例
                     BaseSurfaceView.this.onFloatChangeListener.onChange(ratio);
                     try {
@@ -69,39 +74,56 @@ public abstract class BaseSurfaceView extends SurfaceView {
                     currentTimes++;
                 }
             }
+
+
         }).start();
 
     }
 
-    protected abstract void start();
-
-
-    /**
-     * 坐标
-     */
-    public static class Coordinate {
-
-        public Coordinate(float x, float y) {
-            this.x = x;
-            this.y = y;
-
-        }
-
-        public Coordinate setExtra(float extra) {
-            this.extra = extra;
-            return this;
-        }
-
-        public float getExtra() {
-            return extra;
-        }
-
-        private float extra;
-        public float x;
-        public float y;
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        onCreateOk();
     }
 
-    public interface OnFloatChangeListener {
-        void onChange(float value);
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
     }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        isDrawing = false;
+    }
+
+
+    private class ViewDrawObserver implements ViewCreateObserver {
+        private boolean viewState;
+        private boolean dataState;
+
+        @Override
+        public void onUpdate(int type, boolean state) {
+            if (type == TYPE_VIEW) {
+                viewState = state;
+            } else if (type == TYPE_DATA) {
+                dataState = state;
+            }
+            if (viewState && dataState) {
+                beforeDraw();
+                startDraw();
+            }
+        }
+    }
+
+    protected void onInitDataOk() {
+        viewDrawObserver.onUpdate(ViewCreateObserver.TYPE_DATA, true);
+    }
+
+    protected void onCreateOk() {
+        viewDrawObserver.onUpdate(ViewCreateObserver.TYPE_VIEW, true);
+    }
+
+    protected abstract void startDraw();
+
+    protected abstract void beforeDraw();
+
 }
