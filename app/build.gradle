@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-android'
 android {
     signingConfigs {
         config {
@@ -122,7 +122,7 @@ dependencies {
     //rxjava 与 retrofit 结合
     compile project(':waterfairylib')
     compile files('src/main/libs/alipaySdk-20170309.jar')
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+//    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.mobsandgeeks:android-saripaar:2.0.3'
