@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#11121212"
     tools:context="com.waterfairy.tool.selfView.SunViewActivity">
 
     <com.waterfairy.tool.widget.sun.SunView
         android:id="@+id/sun_view"
-        android:layout_width="300dp"
-        android:layout_height="300dp" />
+        android:layout_width="200dp"
+        android:layout_height="200dp" />
 </android.support.constraint.ConstraintLayout>

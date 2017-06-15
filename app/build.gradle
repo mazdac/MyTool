@@ -59,6 +59,7 @@ android {
             resValue("string", "app_name", "工具箱(调试)")
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable true
+//            shrinkResources false
             signingConfig signingConfigs.config
         }
     }

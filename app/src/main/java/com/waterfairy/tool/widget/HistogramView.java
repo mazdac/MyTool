@@ -11,9 +11,11 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-import com.waterfairy.tool.widget.baseView.BaseSurfaceView;
-import com.waterfairy.tool.widget.baseView.Coordinate;
-import com.waterfairy.tool.widget.baseView.OnFloatChangeListener;
+
+import com.waterfairy.widget.baseView.BaseSurfaceView;
+import com.waterfairy.widget.baseView.Coordinate;
+import com.waterfairy.widget.baseView.OnCanvasChangeListener;
+import com.waterfairy.widget.baseView.OnFloatChangeListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,6 +94,11 @@ public class HistogramView extends BaseSurfaceView {
     }
 
     @Override
+    protected void drawFinishView(Canvas canvas) {
+
+    }
+
+    @Override
     protected void beforeDraw() {
         initDataAfterMeasure();
     }
@@ -100,11 +107,12 @@ public class HistogramView extends BaseSurfaceView {
     private void draw() {
         drawSteady();
 //        drawHistogram(1);
-        setClock(new OnFloatChangeListener() {
+        setClock(new OnCanvasChangeListener() {
             @Override
-            public void onChange(float value) {
+            public void onChange(Canvas canvas, float value) throws Exception {
                 drawHistogram(value);
             }
+
         });
 
 
@@ -325,34 +333,6 @@ public class HistogramView extends BaseSurfaceView {
         }
     }
 
-//    /**
-//     * x坐标显示
-//     */
-//    public class XLineCoordinate {
-//        private Coordinate coordinate;//坐标
-//        private int value;//显示数据值
-//
-//        public XLineCoordinate(Coordinate coordinate, int value) {
-//            this.coordinate = coordinate;
-//            this.value = value;
-//        }
-//
-//        public Coordinate getCoordinate() {
-//            return coordinate;
-//        }
-//
-//        public void setCoordinate(Coordinate coordinate) {
-//            this.coordinate = coordinate;
-//        }
-//
-//        public int getValue() {
-//            return value;
-//        }
-//
-//        public void setValue(int value) {
-//            this.value = value;
-//        }
-//    }
 
     public void setXYTitle(String xTitle, String yTitle) {
         mXTitle = xTitle;

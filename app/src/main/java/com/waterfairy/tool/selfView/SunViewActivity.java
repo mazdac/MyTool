@@ -18,6 +18,6 @@ public class SunViewActivity extends AppCompatActivity {
     }
 
     private void intiData() {
-        sunView.initData(6, 10, 18);
+        sunView.initData(6, 15, 18);
     }
 }

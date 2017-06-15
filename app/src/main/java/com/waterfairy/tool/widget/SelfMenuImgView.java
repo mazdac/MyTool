@@ -9,8 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 
-import com.waterfairy.tool.widget.baseView.BaseSelfViewGroup;
-import com.waterfairy.tool.widget.baseView.Coordinate;
+import com.waterfairy.widget.baseView.BaseSelfViewGroup;
+import com.waterfairy.widget.baseView.Coordinate;
 
 import java.util.ArrayList;
 import java.util.List;
