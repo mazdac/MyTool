@@ -1,1 +1,1 @@
-include ':app', ':waterfairylib', ':musicplayer', ':aidlClient', ':aidlserver', ':myapplication', ':mytool2'
+include ':app', ':waterfairylib', ':musicplayer',  ':myapplication' ,':mytool2'

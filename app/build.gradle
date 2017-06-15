@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-//apply plugin: 'kotlin-android'
 android {
     signingConfigs {
         config {
@@ -34,9 +33,11 @@ android {
             ldLibs "log", "z", "m"
             abiFilters "armeabi", "armeabi-v7a", "x86"
         }
-        jackOptions {
-            enabled true
-        }
+//        jackOptions {
+//            enabled true
+//        }
+        android.compileOptions.sourceCompatibility 1.8
+        android.compileOptions.targetCompatibility 1.8
     }
     buildTypes {
         release {
@@ -67,13 +68,13 @@ android {
 //            jni.srcDirs = []
 //        }
 //    }
-    android.applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.outputFile = new File(output.outputFile.parent,
-                    output.outputFile.name.replace("app-release.apk", "com.waterfairy.tool-" + defaultConfig.versionName + ".apk")
-            )
-        }
-    }
+//    android.applicationVariants.all { variant ->
+//        variant.outputs.each { output ->
+//            output.outputFile = new File(output.outputFile.parent,
+//                    output.outputFile.name.replace("app-release.apk", "com.waterfairy.tool-" + defaultConfig.versionName + ".apk")
+//            )
+//        }
+//    }
 //    productFlavors {
 //        prelease {
 //            applicationId 'com.waterfairy.tool'
@@ -104,10 +105,10 @@ android {
 //            )
 //        }
 //    }
-    compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
-    }
+//    compileOptions {
+//        targetCompatibility 1.8
+//        sourceCompatibility 1.8
+//    }
 }
 
 dependencies {
